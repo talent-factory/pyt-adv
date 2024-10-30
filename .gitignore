@@ -1,1 +1,3 @@
+# JetBrains specific files
 .idea/
+*.iml
