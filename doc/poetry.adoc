@@ -1,46 +1,9 @@
----
-ref:
-- "https://realpython.com/dependency-management-python-poetry"
-tags:
-- python
-- requirements
-- poetry
-- pip
-- pypi
----
+== Python Poetry
+include::locale/attributes-de.adoc[]
+:imagesdir: images/
 
-# Abhängigkeitsmanagement mit Python Poetry
-
----
-
-## Inhaltsverzeichnis
-
-- [Voraussetzungen](#Voraussetzungen "wikilink")
-  - [Terminologien](#Terminologien "wikilink")
-  - [Installation von Poetry](#Installation von Poetry "wikilink")
-- [Erste Schritte mit Python Poetry](#Erste Schritte mit Python Poetry "wikilink")
-  - [Erstellen eines neues Poetry-Projekt](#Erstellen eines neues Poetry-Projekt "wikilink")
-  - [Verstehen der Projektstruktur](#Verstehen der Projektstruktur "wikilink")
-  - [Inhalt der pyproject.toml Datei](#Inhalt der pyproject.toml Datei "wikilink")
-- [Arbeiten Sie mit Python Poetry](#Arbeiten Sie mit Python Poetry "wikilink")
-  - [Aktivieren einer benutzerdefinierte virtuelle Umgebung](#Aktivieren einer benutzerdefinierte virtuelle Umgebung "wikilink")
-  - [Verwenden der virtuelle Umgebung von Poetry](#Verwenden der virtuelle Umgebung von Poetry "wikilink")
-  - [Laufzeitabhängigkeiten deklarieren](#Laufzeitabhängigkeiten deklarieren "wikilink")
-  - [Gruppenabhängigkeiten und zusätzliche Funktionen hinzufügen](#Gruppenabhängigkeiten und zusätzliche Funktionen hinzufügen "wikilink")
-  - [Installieren unseres Pakets mit Poetry](#Installieren unseres Pakets mit Poetry "wikilink")
-- [Abhängigkeiten mit Poetry verwalten](#Abhängigkeiten mit Poetry verwalten "wikilink")
-  - [Manuelles Sperren von Abhängigkeiten](#Manuelles Sperren von Abhängigkeiten "wikilink")
-  - [Synchronisieren der Umgebung](#Synchronisieren der Umgebung "wikilink")
-  - [Aktualisieren von Abhängigkeiten](#Aktualisieren von Abhängigkeiten "wikilink")
-  - [Vergleich von pyproject.toml und poetry.lock](#Vergleich von pyproject.toml und poetry.lock "wikilink")
-- [Poetry in einem bestehenden Projekt verwenden](#Poetry in einem bestehenden Projekt verwenden "wikilink")
-  - [Einen Ordner in ein Poetry-Projekt umwandeln](#Einen Ordner in ein Poetry-Projekt umwandeln "wikilink")
-  - [Abhängigkeiten in Poetry importieren](#Abhängigkeiten in Poetry importieren "wikilink")
-  - [Abhängigkeiten von Poetry exportieren](#Abhängigkeiten von Poetry exportieren "wikilink")
-- [Befehlsreferenz](#Befehlsreferenz "wikilink")
-
-
-<hr>
+:realpython: https://realpython.com/dependency-management-python-poetry
+:poetry: https://python-poetry.org/
 
 Wenn Ihr Python-Projekt auf externe Pakete angewiesen ist, müssen Sie sicherstellen, dass Sie die richtige Version jedes Pakets verwenden. Nach einem Update funktioniert ein Paket möglicherweise nicht mehr wie zuvor. Ein **Abhängigkeitsmanager** wie Python Poetry hilft Ihnen dabei, externe Pakete in Ihren Projekten zu spezifizieren, zu installieren und zu lösen. Auf diese Weise können Sie sicher sein, dass Sie immer mit der richtigen Abhängigkeitsversion auf jeder Maschine arbeiten.
 
@@ -53,17 +16,17 @@ Wenn Ihr Python-Projekt auf externe Pakete angewiesen ist, müssen Sie sicherste
 - Installieren Sie Abhängigkeiten aus einer **`poetry.lock`** Datei
 - Führen Sie grundlegende Poetry-Befehle mit der **Poetry CLI** aus
 
-[Poetry](https://python-poetry.org/) hilft Ihnen, neue Projekte zu erstellen oder bestehende Projekte zu pflegen, während es sich um die **Abhängigkeitsverwaltung** für Sie kümmert. Es verwendet die `pyproject.toml` Datei, die zum Standard für die Definition von Build-Anforderungen in modernen Python-Projekten geworden ist.
+{poetry}[Poetry] hilft Ihnen, neue Projekte zu erstellen oder bestehende Projekte zu pflegen, während es sich um die **Abhängigkeitsverwaltung** für Sie kümmert. Es verwendet die `pyproject.toml` Datei, die zum Standard für die Definition von Build-Anforderungen in modernen Python-Projekten geworden ist.
 
 Um dieses Tutorial abzuschliessen und das Beste daraus zu holen, sollten Sie ein grundlegendes Verständnis von [virtuellen Umgebungen], [Modulen und Paketen] und [`pip`] haben.
 
 Während Sie sich in diesem Tutorial auf die Abhängigkeitsverwaltung konzentrieren, kann Poetry Ihnen auch dabei helfen, ein [Vertriebspaket zu erstellen](https://python-poetry.org/docs/cli/#build) für Ihr Projekt. Wenn Sie Ihre Arbeit teilen möchten, dann können Sie Poetry verwenden, um Ihr Projekt auf dem [Python Packaging Index (PyPI)](https://pypi.org/) zu [veröffentlichen](https://python-poetry.org/docs/cli/#publish).
 
-## Voraussetzungen
+=== Voraussetzungen
 
 Bevor Sie sich in die Feinheiten von Python Poetry vertiefen, kümmern Sie sich um einige Voraussetzungen. Zuerst lesen Sie einen kurzen Überblick über die Terminologie, die Sie in diesem Tutorial antreffen werden. Als nächstes installieren Sie Poetry selbst.
 
-### Terminologien
+==== Terminologien
 
 Wenn Sie jemals eine [`import` Anweisung] in einem Ihrer Python-Skripte verwendet haben, dann haben Sie mit **Modulen** und **Paketen** gearbeitet. Einige davon könnten Python-Dateien sein, die Sie selbst geschrieben haben. Andere könnten **Standardbibliotheks-Module** sein, die mit Python geliefert werden, wie [`datetime`]. Manchmal reicht jedoch das, was Python bietet, nicht aus. Das ist der Moment, in dem Sie sich möglicherweise an externe Module und Pakete wenden, die von Dritten gepflegt werden.
 
@@ -71,13 +34,14 @@ Wenn Ihr Python-Code auf solche externen Module und Pakete angewiesen ist, werde
 
 Um Pakete zu finden, die von der Python-Community beigetragen wurden und nicht Teil der [Python-Standardbibliothek](https://docs.python.org/3/py-modindex.html) sind, können Sie [PyPI](https://pypi.org/) durchsuchen. Sobald Sie ein Paket gefunden haben, das Sie interessiert, können Sie Poetry verwenden, um dieses Paket in Ihrem Projekt zu verwalten und zu installieren. Bevor Sie sehen, wie das funktioniert, müssen Sie Poetry auf Ihrem System installieren.
 
-### Installation von Poetry
+==== Installation von Poetry
 
 Poetry wird als ein [Python-Paket selbst](https://pypi.org/project/poetry/) verteilt, was bedeutet, dass Sie es in eine virtuelle Umgebung mit `pip` installieren können, genau wie jedes andere externe Paket:
 
-``` bash
+[source,bash]
+----
 python3 -m pip install poetry
-```
+----
 
 Das ist in Ordnung, wenn Sie es nur schnell ausprobieren möchten. Die [offizielle Dokumentation](https://python-poetry.org/docs/) rät jedoch *dringend davon ab*, Poetry in die virtuelle Umgebung Ihres Projekts zu installieren, die das Tool verwalten muss. Da Poetry selbst auf mehrere externe Pakete angewiesen ist, besteht die Gefahr eines **Abhängigkeitskonflikts** zwischen einer Ihrer Projektabhängigkeiten und denen, die von Poetry benötigt werden. Dies könnte dazu führen, dass Poetry oder Ihr Code nicht richtig funktioniert.
 
@@ -92,9 +56,10 @@ Es gibt mehrere Möglichkeiten, Poetry auf Ihrem Computer zum Laufen zu bringen,
 
 In den meisten Fällen ist der *empfohlene Weg zur Installation von Poetry* mit Hilfe von `pipx`, das sich um die Erstellung und Pflege isolierter virtueller Umgebungen für Python-Anwendungen in der Befehlszeile kümmert. Nachdem Sie [`pipx` installiert](https://pipx.pypa.io/stable/installation/) haben, können Sie Poetry installieren, indem Sie den folgenden Befehl in Ihrem Terminalfenster ausführen:
 
-``` bash
+[source,bash]
+----
 pipx install poetry
-```
+----
 
 Obwohl dieser Befehl sehr ähnlich zu dem aussieht, den du zuvor gesehen hast, wird er Poetry in einer dedizierten virtuellen Umgebung installieren, die nicht mit anderen Python-Paketen geteilt wird.
 
@@ -109,9 +74,10 @@ Wenn Sie `poetry` in Ihrem Terminal oder PowerShell-Konsole eingeben, beziehen S
 
 Falls Sie aus irgendeinem Grund `pipx` nicht verwenden können oder möchten, dann ist das Nächstbeste, was Sie tun können, die Nutzung des [**offiziellen Installers**](https://github.com/python-poetry/install.python-poetry.org), den Sie herunterladen und mit einem Befehl wie diesem ausführen können:
 
-``` bash
+[souce,bash]
+----
 curl -sSL https://install.python-poetry.org | python3 -
-```
+----
 
 Auf Windows können Sie den `Invoke-WebRequest` PowerShell-Befehl zusammen mit der Option `-UseBasicParsing` verwenden, um den Inhalt einer angeforderten URL herunterzuladen und ihn auf den **Standardausgabestrom (stdout)** zu drucken. Mit dem Pipe-Operator (`|`) können Sie das heruntergeladene `install-poetry.py` Skript abfangen und es in Ihren Python-Interpreter aus dem **Standardeingabestrom (stdin)** umzuleiten.
 
@@ -123,9 +89,10 @@ Wenn Sie an den technischen Details interessiert sind, werfen Sie einen Blick au
 
 Schliesslich können einige Betriebssysteme Poetry als **natives Paket** bündeln. Zum Beispiel, wenn Sie ein [Debian-basiertes](https://en.wikipedia.org/wiki/List_of_Linux_distributions#Debian-based) System wie Ubuntu verwenden, könnten Sie in der Lage sein, Poetry mit `apt` zu installieren, so
 
-``` bash
+[source,bash]
+----
 sudo apt install python3-poetry
-```
+----
 
 Beachten Sie, dass die auf diese Weise verpackte Poetry-Version möglicherweise nicht die neueste ist. Darüber hinaus kann das native Paket Hunderte von Megabyte zusätzlicher Abhängigkeiten mitbringen, wie zum Beispiel einen weiteren Python-Interpreter, der völlig unnötig wäre, wenn Sie Poetry mit einer der früheren Methoden installiert hätten.
 
@@ -144,22 +111,25 @@ Sobald die Poetry-Installation abgeschlossen ist, können Sie bestätigen, dass 
 
 Nun, da Sie überprüft haben, dass Poetry korrekt installiert wurde, ist es an der Zeit zu sehen, wie es funktioniert.
 
-## Erste Schritte mit Python Poetry
+
+=== Erste Schritte mit Python Poetry
 
 In diesem Abschnitt lernen Sie, wie Sie ein neues Poetry-Projekt mit der Befehlszeilenschnittstelle (CLI) des Tools erstellen. Sie werden auch die Projektstruktur erkunden und die `pyproject.toml` Datei inspizieren, welche die Metadaten und Konfiguration des Projekts beinhaltet.
 
-### Erstellen eines neues Poetry-Projekt
+==== Erstellen eines neues Poetry-Projekt
 
 Um ein neues Poetry-Projekt von Grund auf neu zu erstellen, verwenden Sie den Befehl [`poetry new`](https://python-poetry.org/docs/cli/#new) gefolgt vom gewünschten Projektnamen. In diesem Tutorial arbeiten Sie an einem Projekt namens `my-poetry`. Machen Sie weiter, erstellen Sie dieses Projekt jetzt und navigieren Sie dann in das neu erstellte Verzeichnis, indem Sie die folgenden Befehle in Ihrem Terminal eingeben:
 
-``` bash
+[source,bash]
+----
 poetry new my-poetry
 cd my-poetry
-```
+----
 
 Das Ausführen von `poetry new my-poetry` erstellt einen neuen Ordner namens `my-poetry`. Wenn Sie in diesen Ordner schauen, sehen Sie die folgende Struktur:
 
-``` text
+[text]
+----
 my-poetry
 ├── README.md
 ├── my_poetry
@@ -167,36 +137,39 @@ my-poetry
 ├── pyproject.toml
 └── tests
     └── __init__.py
-```
+----
 
 Haben Sie bemerkt, wie Poetry den Bindestrich (`-`) im bereitgestellten Namen in einen Unterstrich (`_`) im entsprechenden `my_poetry` Unterordner übersetzt hat? Das Tool normalisiert automatisch Python-Paketnamen für Sie. Dies stellt sicher, dass Sie sie als Python-Pakete importieren können. Andernfalls wäre `my-poetry` kein gültiger Bezeichner, da ein Bindestrich den Minusoperator in der Python-Syntax darstellt.
 
 Um mehr Kontrolle über den resultierenden **Paketnamen** zu haben, können Sie optional das Argument `--name` übergeben, das es Ihnen ermöglicht, einen anderen Namen für das Python-Paket als Ihren Projektordner anzugeben:
 
-``` bash
+[source,bash]
+----
 poetry new my-poetry --name project
-```
+----
 
 Beachten Sie, dass Poetry den über dieses Argument bereitgestellten Paketnamen auch normalisiert, sollte er einen Bindestrich enthalten.
 
 Bei der Erstellung der Ordnerstruktur für ein neues Projekt folgt Poetry standardmäßig dem **flachen Layout**. In diesem Layout befindet sich Ihr Python-Paket auf der obersten Ebene des Projektordners. Eine weitere beliebte Wahl in Python ist das **src Layout**, das den Code in einem zusätzlichen `src/` Elternordner hält. Wenn Sie dieses Layout bevorzugen, dann geben Sie die `--src` Flagge an Poetry weiter, wenn Sie ein neues Projekt erstellen:
 
-``` bash
+[source,bash]
+----
 poetry new my-poetry --name project --src
-```
+----
 
 Wenn Sie diese Flagge hinzufügen, ergibt sich eine leicht andere Ordnerstruktur:
 
-``` text
+[text]
+----
 my-poetry
 ├── README.md
 ├── pyproject.toml
 ├── src
-│   └── project
-│       └── __init__.py
+│   └── project
+│       └── __init__.py
 └── tests
     └── __init__.py
-```
+----
 
 Nun ist Ihr `project` Paket im `src` Ordner verschachtelt. Sowohl das flache als auch das src Layout haben ihre Vor- und Nachteile, die Sie vergleichen können, indem Sie den [Python Packaging Guide](https://packaging.python.org/en/latest/discussions/src-layout-vs-flat-layout/) lesen, falls Sie interessiert sind. Sie werden jedoch für den Rest dieses Tutorials beim Standard-Flachlayout bleiben.
 
@@ -208,7 +181,7 @@ Nun ist Ihr `project` Paket im `src` Ordner verschachtelt. Sowohl das flache als
 
 Wie Sie sehen können, ist das Erstellen eines neuen Projekts mit Poetry ziemlich einfach und bequem. Sie erhalten kostenlos eine grundlegende Ordnerstruktur, ohne zu viel darüber nachdenken zu müssen, wie Sie Ihre Python-Dateien organisieren.
 
-### Verstehen der Projektstruktur
+==== Verstehen der Projektstruktur
 
 Der `my_poetry` Unterordner selbst ist noch nicht sehr spektakulär. Darin finden Sie nur eine leere `__init__.py` Datei, die es in ein importierbares Python-Paket verwandelt.
 
@@ -222,7 +195,7 @@ Poetry generiert auch standardmässig eine leere [README](https://en.wikipedia.o
 
 Zuletzt erstellt Poetry eine Konfigurationsdatei namens `pyproject.toml` mit den minimal erforderlichen Metadaten für Ihr Projekt, wie in [PEP 518](https://peps.python.org/pep-0518/) beschrieben. Sie werden sich diese nun genauer ansehen.
 
-### Inhalt der pyproject.toml Datei
+==== Inhalt der pyproject.toml Datei
 
 Eine der wichtigsten Dateien für die Arbeit mit Poetry ist die `pyproject.toml` Datei. Diese Datei ist keine Erfindung von Poetry, sondern ein **Konfigurationsdatei** Standard, der in PEP 518 definiert ist.
 
@@ -236,7 +209,8 @@ Die Autoren haben einige Dateiformate für die neue Konfigurationsdatei in Betra
 
 Um zu sehen, wie ein TOML-Dokument aussieht, öffnen Sie die von Poetry erstellte `pyproject.toml`-Datei in Ihrem Projektordner:
 
-``` toml
+[source,toml]
+----
 [tool.poetry]
 name="rp-poetry"
 version="0.1.0"
@@ -250,7 +224,7 @@ python="^3.12"
 [build-system]
 requires=["poetry-core"]
 build-backend="poetry.core.masonry.api"
-```
+----
 
 Momentan können Sie drei Abschnitte sehen, die in der `pyproject.toml` Datei oben mit eckigen Klammern gekennzeichnet sind. Diese Abschnitte sind in der TOML-Terminologie als [Tabellen](https://toml.io/en/v1.0.0#table) bekannt. Sie enthalten deklarative Anweisungen, die Werkzeuge wie Poetry erkennen und für das **Verwalten von Abhängigkeiten**, das **Bauen des Projekts** oder das Ausführen anderer Aufgaben verwenden können.
 
@@ -303,11 +277,11 @@ Wenn Sie ein neues Projekt mit Poetry erstellen, ist dies die `pyproject.toml` D
 >
 > [PEP 621](https://peps.python.org/pep-0621/) gibt an, wie man Projekt-Metadaten in einer `[project]` Tabelle innerhalb von `pyproject.toml` speichert. Es gibt eine [laufende Diskussion](https://github.com/python-poetry/poetry/issues/3332) darüber, wie man PEP 621 in Poetry unterstützen kann, anstatt `[tool.poetry]` zu verwenden.
 
-## Arbeiten Sie mit Python Poetry
+=== Arbeiten Sie mit Python Poetry
 
 Sobald Sie ein Poetry-Projekt eingerichtet haben, kann die eigentliche Arbeit beginnen. In diesem Abschnitt erfahren Sie, wie Poetry sich um die Vorbereitung einer isolierten virtuellen Umgebung für Ihr Projekt kümmert und wie es Ihre Abhängigkeiten darin verwaltet.
 
-### Aktivieren einer benutzerdefinierte virtuelle Umgebung
+==== Aktivieren einer benutzerdefinierte virtuelle Umgebung
 
 Wenn Sie ein neues Python-Projekt von Hand erstellen, ist es eine gute Praxis, auch eine dazugehörige [virtuelle Umgebung]  zu erstellen. Andernfalls könnten Sie verschiedene Abhängigkeiten von verschiedenen Projekten verwechseln. Poetry bietet eine eingebaute Unterstützung für virtuelle Umgebungen, um sicherzustellen, dass es nie mit Ihrer globalen Python-Installation interferiert. Das Tool kann den Großteil der Verwaltung von virtuellen Umgebungen für Sie übernehmen.
 
@@ -315,10 +289,11 @@ Jedoch erstellt Poetry nicht sofort eine virtuelle Umgebung, wenn Sie ein neues 
 
 Wenn Sie einen der Poetry-Befehle in Ihrem Projektordner ausführen, erkennt Poetry eine **manuell aktivierte virtuelle Umgebung**.
 
-``` bash
+[source,bash]
+----
 cd my-poetry
 poetry env info --path
-```
+----
 
 Hier, nachdem Sie Ihr [Arbeitsverzeichnis](https://en.wikipedia.org/wiki/Working_directory) auf `my-poetry` geändert haben, zeigen Sie die [Umgebungsinformationen](https://python-poetry.org/docs/managing-environments#displaying-the-environment-information) mit dem Befehl `poetry env info` an. Da die aktuelle Shell-Sitzung eine aktivierte virtuelle Umgebung hat - wie durch das Prompt-Prefix `(venv)` angezeigt - bestätigt Poetry, dass es diese Umgebung für alle nachfolgenden Befehle innerhalb Ihres Projektrahmens verwenden wird.
 
@@ -332,29 +307,32 @@ Andererseits erstellt Poetry automatisch eine virtuelle Umgebung - oder verwende
 
 Das Erstellen von virtuellen Umgebungen durch Poetry ist die bevorzugte Methode, um Abhängigkeiten in Ihren Projekten zu isolieren. Sie werden jetzt sehen, wie das funktioniert.
 
-### Verwenden der virtuelle Umgebung von Poetry
+==== Verwenden der virtuelle Umgebung von Poetry
 
 Sie können [alle virtuellen Umgebungen](https://python-poetry.org/docs/managing-environments/#listing-the-environments-associated-with-the-project) auflisten, die Poetry in Ihrem Projekt verwaltet, indem Sie den folgenden Befehl im Verzeichnis Ihres Projekts ausführen:
 
-``` bash
+[source,bash]
+----
 poetry env list
-```
+----
 
 An diesem Punkt sehen Sie noch keine Ausgabe, da Sie noch keine Befehle ausgeführt haben, die Poetry veranlassen würden, eine virtuelle Umgebung zu erstellen. Später können Sie mehr als eine virtuelle Umgebung definieren, um Ihr Projekt gegen verschiedene Konfigurationen oder verschiedene Python-Versionen zu testen. Beachten Sie, dass der oben genannte Befehl unabhängig vom Zustand Ihrer Shell bleibt, daher spielt es keine Rolle, ob Sie derzeit eine aktivierte virtuelle Umgebung haben oder nicht.
 
 Um die Unterstützung von Poetry für virtuelle Umgebungen in Aktion zu sehen, stellen Sie sicher, dass Sie jede virtuelle Umgebung, die Sie zuvor aktiviert haben könnten, deaktivieren:
 
-``` bash
+[source,bash]
+----
 deactivate
-```
+----
 
 Von nun an wird Poetry sich um die Erstellung und Verwaltung von virtuellen Umgebungen in Ihren Projekten kümmern, wenn Sie einige seiner Befehle ausführen.
 
 Wenn Sie eine bessere Kontrolle über die Erstellung einer virtuellen Umgebung haben möchten, können Sie Poetry explizit mitteilen, welche Python-Version Sie von Anfang an verwenden möchten:
 
-``` bash
+[source,bash]
+----
 poetry env use python3
-```
+----
 
 Mit diesem Befehl geben Sie den Pfad zu einem gewünschten Python-Interpreter auf Ihrer Festplatte an. Die Verwendung von blossem `python3` funktioniert, solange Sie die entsprechende [Python ausführbare Datei in Ihrem `PATH`] haben. Sie können auch die **kleinere Python-Version** wie 3.12 oder einfach 3 verwenden.
 
@@ -366,11 +344,12 @@ Mit diesem Befehl geben Sie den Pfad zu einem gewünschten Python-Interpreter au
 
 Wenn Poetry eine neue virtuelle Umgebung erstellt, zum Beispiel nachdem Sie zum ersten Mal den Befehl `poetry env use <python>` ausgeführt haben, sehen Sie eine Nachricht, die dieser ähnlich ist:
 
-``` bash
-poetry env use python
+[text]
+----
+$ poetry env use python
 Creating virtualenv project-VdoBT_vR-py3.12 in /Users/daniel/Library/Caches/pypoetry/virtualenvs
 Using virtualenv: /Users/daniel/Library/Caches/pypoetry/virtualenvs/project-VdoBT_vR-py3.12
-```
+----
 
 Wie Sie sehen können, hat Poetry einen **einzigartigen Namen** für die virtuelle Umgebung Ihres Projekts erstellt. Er enthält den Namen Ihres Pakets aus `pyproject.toml` und die entsprechende Python-Version. Die scheinbar zufällige Zeichenfolge in der Mitte, `Dod5cRxq`, ist ein [Base64-kodierter](https://en.wikipedia.org/wiki/Base64) Hash-Wert des Pfads, der zu Ihrem übergeordneten Projektverzeichnis führt. Es verbindet den Namen einer virtuellen Umgebung mit dem Speicherort Ihres Projekts auf der Festplatte.
 
@@ -388,18 +367,20 @@ Wenn Sie das Standard-Cache-Verzeichnis ändern möchten, können Sie die [Konfi
 
 Um Ihre aktuelle Poetry-Konfiguration aufzudecken, die die `cache-dir` und `virtualenvs.path` Einstellungen enthält, führen Sie diesen Befehl aus:
 
-``` bash
-poetry config --list
-```
+[source,bash]
+----
+$ poetry config --list
+----
 
 Normalerweise müssen Sie diese Pfade nicht ändern. Wenn Sie mehr über die Interaktion mit den virtuellen Umgebungen von Poetry erfahren möchten, enthält die Poetry-Dokumentation ein Kapitel über das [Verwalten von Umgebungen](https://python-poetry.org/docs/managing-environments/).
 
 Solange du dich in deinem Projektordner befindest, wird Poetry die damit verbundene virtuelle Umgebung nutzen. Wenn du jemals unsicher bist, kannst du überprüfen, ob die virtuelle Umgebung erstellt wurde, indem du den Befehl `poetry env list` erneut ausführst:
 
-```bash
-poetry env list
+[source,bash]
+----
+$ poetry env list
 project-VdoBT_vR-py3.12 (Activated)
-```
+----
 
 Poesie zeigt an, welches der virtuellen Umgebungen, die mit Ihrem Projekt verbunden sind, derzeit als **Standard** ausgewählt ist. Obwohl es *aktiviert* heißt, ist die entsprechende virtuelle Umgebung in Ihrer Shell im traditionellen Sinne tatsächlich nicht aktiviert. Stattdessen wird Poesie diese virtuelle Umgebung vorübergehend in einem [Unterprozess] aktivieren, wenn Sie einen der Poesie-Befehle ausführen.
 
@@ -409,7 +390,7 @@ Poesie zeigt an, welches der virtuellen Umgebungen, die mit Ihrem Projekt verbun
 
 Mit dieser Fähigkeit in Ihrem Repertoire sind Sie bereit, einige Abhängigkeiten zu Ihrem Projekt hinzuzufügen und Poetry zum Strahlen zu bringen.
 
-### Laufzeitabhängigkeiten deklarieren
+==== Laufzeitabhängigkeiten deklarieren
 
 Als Sie Ihr `my-poetry` Projekt mit Poetry erstellt haben, hat es die minimale `pyproject.toml` Datei mit der `[tool.poetry.dependencies]` Unter-Tabelle erstellt. Bisher enthält es nur eine Deklaration der Python-Interpreter-Version, aber hier können Sie auch die externen Python-Pakete angeben, die Ihr Projekt benötigt.
 
@@ -419,13 +400,15 @@ Du hast vielleicht schon [`pip`] verwendet, um Pakete zu installieren, die nicht
 
 Das Ausführen des [`poetry add`](https://python-poetry.org/docs/cli#add) Befehls aktualisiert automatisch Ihre `pyproject.toml` Datei mit der neuen Abhängigkeit und installiert gleichzeitig das Paket. Tatsächlich können Sie sogar mehrere Pakete auf einmal angeben:
 
-``` bash
-poetry add requests beautifulsoup4
-```
+[source,bash]
+----
+$ poetry add requests beautifulsoup4
+----
 
 Dies wird die neuesten Versionen beider Abhängigkeiten auf PyPI finden, sie in der entsprechenden virtuellen Umgebung installieren und die folgenden zwei Deklarationen in Ihrer `pyproject.toml` Datei einfügen:
 
-``` toml
+[source,toml]
+----
 [tool.poetry]
 name = "project"
 version = "0.1.0"
@@ -442,7 +425,7 @@ beautifulsoup4 = "^4.12.3"
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
-```
+----
 
 Die Reihenfolge dieser Deklarationen spiegelt die Reihenfolge wider, in der Sie diese Pakete in der Befehlszeile angegeben haben.
 
@@ -454,9 +437,10 @@ Beachten Sie das [Caret-Symbol (`^`)](https://en.wikipedia.org/wiki/Caret) vor d
 
 Wenn Sie eine bestimmte Version eines externen Pakets hinzufügen oder benutzerdefinierte [Versionsbeschränkungen](https://python-poetry.org/docs/dependency-specification/#version-constraints) definieren möchten, dann lässt Sie Poetry das auf der Kommandozeile tun:
 
-``` bash
-poetry add requests==2.25.1 "beautifulsoup4<4.10"
-```
+[source,bash]
+----
+$ poetry add requests==2.25.1 "beautifulsoup4<4.10"
+----
 
 Wenn Sie diesen Befehl ausführen, wird Poetry zunächst alle zuvor installierten Versionen dieser Pakete entfernen und deren indirekte oder [transitive Abhängigkeiten](https://de.wikipedia.org/wiki/Transitive_Abh%C3%A4ngigkeit) nach Bedarf herabstufen. Anschließend ermittelt es die am besten geeigneten Versionen dieser Pakete und berücksichtigt dabei andere bestehende Einschränkungen, um potenzielle Konflikte zu lösen.
 
@@ -466,8 +450,10 @@ Wenn Sie diesen Befehl ausführen, wird Poetry zunächst alle zuvor installierte
 
 Wenn Sie eine oder mehrere Abhängigkeiten von Ihrem Projekt entfernen möchten, dann stellt Poetry den entsprechenden [`poetry remove`](https://python-poetry.org/docs/cli#remove) Befehl zur Verfügung:
 
-``` bash
-poetry remove requests
+[text]
+----
+$ poetry remove requests
+
 Updating dependencies
 Resolving dependencies... (0.1s)
 
@@ -480,7 +466,7 @@ Package operations: 0 installs, 0 updates, 5 removals
   - Removing urllib3 (2.2.3)
 
 Writing lock file
-```
+----
 
 Wie Sie sehen können, entfernt es die gegebene Abhängigkeit zusammen mit ihren transitiven Abhängigkeiten, sodass Sie sich keine Sorgen über **übrig gebliebene Pakete** machen müssen, die von Ihrem Projekt nicht mehr benötigt werden. Dies ist ein Vorteil von Poetry gegenüber dem einfachen `pip`, das nur die einzelnen Pakete deinstallieren kann.
 
@@ -488,20 +474,22 @@ Beachten Sie, dass Poetry Sie immer informiert, wenn Sie eine Abhängigkeit hinz
 
 Bisher haben Sie [Laufzeit](https://en.wikipedia.org/wiki/Execution_(computing)#Runtime) Abhängigkeiten hinzugefügt, die notwendig waren, um Ihr Programm korrekt zu betreiben. Es kann jedoch sein, dass Sie einige Abhängigkeiten nur in bestimmten Entwicklungsphasen benötigen, wie zum Beispiel während des Testens. Als nächstes sehen Sie, welche Werkzeuge Poetry Ihnen zur Verfügung stellt, um diese Art von Abhängigkeiten zu verwalten.
 
-### Gruppenabhängigkeiten und zusätzliche Funktionen hinzufügen
+==== Gruppenabhängigkeiten und zusätzliche Funktionen hinzufügen
 
 Eine weitere praktische Funktion in Poetry, die in `pip` fehlt, ist die Möglichkeit, **Gruppen von Abhängigkeiten** zu verwalten, was es Ihnen ermöglicht, logisch zusammenhängende Abhängigkeiten von Ihren Laufzeitabhängigkeiten zu trennen. Zum Beispiel möchten Sie während der Entwicklung oft zusätzliche Pakete, wie [Linters], [Type Checkers](https://realpython.com/python-type-checking/) oder [Testing Frameworks], die das endgültige Verteilungspaket nur aufblähen würden. Ihre Benutzer benötigen diese schließlich nicht.
 
 Mit Poetry können Sie Abhängigkeiten unter beliebigen Namen gruppieren, damit Sie diese Gruppen später bei Bedarf selektiv installieren können. Hier ist, wie man einige Abhängigkeiten zu einer Gruppe namens `dev` hinzufügt und einige Abhängigkeiten zu einer anderen Gruppe namens `test`:
 
-``` bash
-poetry add --group dev black flake8 isort mypy pylint
-poetry add --group test pytest faker
-```
+[source,bash]
+----
+$ poetry add --group dev black flake8 isort mypy pylint
+$ poetry add --group test pytest faker
+----
 
 Das Ausführen dieser Befehle führt dazu, dass Poetry die aufgelisteten Pakete in die virtuelle Umgebung des Projekts installiert und zusätzlich zwei weitere Untertabellen in Ihrer `pyproject.toml` Datei hinzufügt, die folgendermaßen aussehen:
 
-``` toml
+[source,toml]
+----
 [tool.poetry]
 name = "project"
 version = "0.1.0"
@@ -528,7 +516,7 @@ faker = "^30.8.1"
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
-```
+----
 
 Die neuen Untertabellen beginnen mit dem Namen `tool.poetry.group` und enden mit dem Wort `dependencies`. Der Teil in der Mitte muss ein einzigartiger Gruppenname sein.
 
@@ -540,27 +528,30 @@ Normalerweise, wenn Sie keinen Gruppennamen angeben, platziert Poetry die angege
 
 Sie können [optionale Gruppen](https://python-poetry.org/docs/managing-dependencies/#optional-groups) definieren, indem Sie das entsprechende Attribut in der `pyproject.toml`-Datei festlegen. Zum Beispiel wird diese Deklaration Ihre `test`-Gruppe zu einer optionalen machen:
 
-``` toml
+[source,toml]
+----
 ...
 [tool.poetry.group.test]
 optional = true
 
 ...
-```
+----
 
 Poesie wird Abhängigkeiten, die zu einer solchen Gruppe gehören, nicht installieren, es sei denn, Sie weisen sie ausdrücklich dazu an, indem Sie die Option [`--with`](https://python-poetry.org/docs/cli/#options-2) verwenden. Beachten Sie, dass Sie eine weitere TOML-Untertabelle deklarieren müssen, um eine Gruppe als optional zu kennzeichnen, da die Konfiguration der Gruppe getrennt von ihrer Abhängigkeitsliste aufbewahrt wird.
 
 Zusätzlich dazu können Sie die einzelnen **Pakete als optional** hinzufügen, um dem Benutzer die Wahl zu lassen, ob er sie installieren möchte.
 
-``` bash
-poetry add --optional mysqlclient psycopg2-binary
-```
+[source,bash]
+----
+$ poetry add --optional mysqlclient psycopg2-binary
+----
 
 Optionale Abhängigkeiten sollen zur Laufzeit verfügbar sein, wenn sie vom Benutzer während der Installation ausdrücklich angefordert werden. Es ist üblich, Pakete als optional zu kennzeichnen, wenn sie plattformspezifisch sind oder wenn sie Funktionen wie einen bestimmten Datenbankadapter bereitstellen, den nur einige Benutzer benötigen werden.
 
 In `pyproject.toml` sehen optionale Abhängigkeiten etwas ausführlicher aus:
 
-``` toml
+[source,toml]
+----
 ...
 [tool.poetry.dependencies]
 python = "^3.12"
@@ -569,13 +560,14 @@ mysqlclient = {version = "^2.2.5", optional = true}
 psycopg2-binary = {version = "^2.9.10", optional = true}
 
 ...
-```
+----
 
 Die `mysqlclient` und `psycopg2-binary` Abhängigkeiten haben ihre `optional` Flag auf `true` gesetzt, während ihre Versionszeichenkette in einem anderen Attribut aufbewahrt wird.
 
 Jedoch reicht dies nicht aus, um solche optionalen Abhängigkeiten dem Benutzer offenzulegen. Sie müssen auch [extras](https://python-poetry.org/docs/pyproject/#extras) in Ihrer `pyproject.toml` Datei definieren, welche Sätze von optionalen Abhängigkeiten sind, die Ihre Benutzer gemeinsam installieren können.
 
-``` toml
+[source,toml]
+----
 ...
 
 [tool.poetry.extras]
@@ -586,26 +578,28 @@ pgsql = ["psycopg2-binary"]
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
-```
+----
 
 Abhängig von Ihren speziellen Bedürfnissen können Sie sich für die gewünschten Funktionen entscheiden, indem Sie während der Installation eine oder mehrere Extras auswählen. Wie Sie sehen können, ist es auch möglich, einige Extras zu kombinieren, die auf einen bestimmten Anwendungsfall zugeschnitten sein könnten, wie zum Beispiel Tests.
 
 Du hast gerade erst die Oberfläche gekratzt, wenn es um die Abhängigkeitsverwaltung mit Poetry geht. Es gibt noch so viel mehr zu entdecken! Das heißt aber, du bist bereits gut ausgerüstet, um Poetry in deinen Projekten umzusetzen. Im nächsten Abschnitt lernst du, wie du aus der Perspektive eines Benutzers mit einem Poetry-Projekt arbeiten kannst.
 
-### Installieren unseres Pakets mit Poetry
+==== Installieren unseres Pakets mit Poetry
 
 Stellen Sie sich vor, Sie haben gerade ein [Git] Repository mit dem `my-poetry` Projekt von [GitHub](https://github.com/) geklont und starten neu ohne virtuelle Umgebung. Um das zu simulieren, können Sie einige Metadaten von Poetry und alle mit dem Projekt verbundenen virtuellen Umgebungen entfernen:
 
-``` bash
-rm poetry.lock
-poetry env remove --all
-```
+[source,bash]
+----
+$ rm poetry.lock
+$ poetry env remove --all
+----
 
 Wenn Sie ein Entwickler sind, der zu diesem Projekt beitragen möchte, können Sie den Befehl [`poetry install`](https://python-poetry.org/docs/cli#install) im Ordner my-poetry/\` ausführen, um den Ball ins Rollen zu bringen:
 
-``` bash
-poetry install
-```
+[source,bash]
+----
+$ poetry install
+----
 
 Wenn andere Mitwirkende die `poetry.lock`-Datei in das entfernte Repository [übertragen haben](https://python-poetry.org/docs/basic-usage/#committing-your-poetrylock-file-to-version-control), was sie im Allgemeinen tun sollten, dann wird Poetry diese Datei lesen. Es wird die **genau gleiche Umgebung** auf Ihrem Computer mit identischen Versionen aller in der neuesten Momentaufnahme von `poetry.lock` aufgeführten Abhängigkeiten reproduzieren.
 
@@ -636,11 +630,11 @@ Wenn Sie die Option `--only {groups}` angeben, ignoriert Poetry die Optionen `--
 
 Das Auflösen von Abhängigkeiten führt dazu, dass eine neue `poetry.lock` Datei aktualisiert oder erstellt wird. Hier behält Poetry den Überblick über alle Pakete und ihre genauen Versionen, die Ihr Projekt verwendet. Sie werden sich diese Datei jetzt genauer ansehen.
 
-## Abhängigkeiten mit Poetry verwalten
+=== Abhängigkeiten verwalten
 
 Immer wenn Sie mit Poetry über seine Befehlszeilenschnittstelle interagieren, aktualisiert es die `pyproject.toml` Datei und fixiert die gelösten Versionen in der `poetry.lock` Datei. Sie müssen jedoch nicht zulassen, dass Poetry die ganze Arbeit erledigt. Sie können Abhängigkeiten in der `pyproject.toml` Datei manuell ändern und sie danach sperren.
 
-### Manuelles Sperren von Abhängigkeiten
+==== Manuelles Sperren von Abhängigkeiten
 
 Poetry generiert und aktualisiert die `poetry.lock` Datei bei Bedarf, solange Sie sich an ihre Befehlszeilenschnittstelle halten. Obwohl die Sperrdatei *nicht* von Hand geändert werden soll, können Sie die zugehörige `pyproject.toml` Datei nach Belieben bearbeiten. Leider kann dies manchmal dazu führen, dass beide Dateien nicht mehr synchron sind.
 
@@ -650,25 +644,28 @@ Poetry generiert und aktualisiert die `poetry.lock` Datei bei Bedarf, solange Si
 
 Angenommen, Sie möchten die Requests-Bibliothek, die Sie zuvor in diesem Tutorial aus dem `my-poetry` Projekt entfernt haben, zurückbringen. Sie können die `pyproject.toml` Datei in Ihrem Texteditor öffnen und die notwendige Deklaration in der Hauptgruppe der Abhängigkeiten eingeben.
 
-``` toml
+[source,toml]
+----
 ...
 
 [tool.poetry.dependencies]
 requests = "*"              # <- Neue Abhängigkeit eingefügt
 python = "^3.12"
 ...
-```
+----
 
 Indem Sie das Sternchen (`*`) als Versionsbeschränkung verwenden, zeigen Sie an, dass Sie keine bestimmte Version der Requests-Bibliothek angeben und jede Version akzeptabel ist. Aber diese Bibliothek ist noch nicht installiert.
 
 Wenn Sie nun Ihr Terminal öffnen und zum übergeordneten Verzeichnis des Projekts navigieren, können Sie Poetry anweisen, die manuell hinzugefügten Abhängigkeiten in die zugehörige virtuelle Umgebung zu installieren und die Sperrdatei zu aktualisieren:
 
-``` bash
-poetry install
+[source,bash]
+----
+$ poetry install
+
 Installing dependencies from lock file
 
 pyproject.toml changed significantly since poetry.lock was last generated. Run `poetry lock [--no-update]` to fix the lock file.
-```
+----
 
 In diesem Fall weigert sich Poetry, die Abhängigkeiten zu installieren, weil Ihre `poetry.lock` Datei momentan die Requests-Bibliothek, die in der begleitenden `pyproject.toml` Datei vorhanden ist, nicht erwähnt. Umgekehrt, wenn Sie eine Deklaration einer aufgelösten und installierten Abhängigkeit aus `pyproject.toml` entfernen, würden Sie auf eine ähnliche Beschwerde stoßen. Warum passiert das?
 
@@ -678,13 +675,15 @@ Daher könnten Sie, um eine solche Diskrepanz zu beheben, die Sperrdatei lösche
 
 Ein weit besserer Ansatz, um die beiden Dateien auszurichten, besteht darin, die neuen Abhängigkeiten mit dem Befehl [`poetry lock`](https://python-poetry.org/docs/cli/#lock) **manuell zu sperren**:
 
-``` bash
-poetry lock
+[source,bash]
+----
+$ poetry lock
+
 Updating dependencies
 Resolving dependencies... (1.6s)
 
 Writing lock file
-```
+----
 
 Dies wird Ihre `poetry.lock` Datei aktualisieren, um der aktuellen `pyproject.toml` Datei zu entsprechen, ohne irgendwelche Abhängigkeiten zu installieren.
 
@@ -706,31 +705,36 @@ Es ist wichtig zu beachten, dass die Abhängigkeitssperre nur um zwei Dinge geht
 1.  *Resolving*: Finden von Paketen, die alle Versionsbeschränkungen erfüllen
 2.  *Pinning*: Erstellen einer Momentaufnahme der gelösten Versionen in der `poetry.lock` Datei
 
-### Synchronisieren der Umgebung
+==== Synchronisieren der Umgebung
 
 Wenn die `poetry.lock` Datei mit ihrer `pyproject.toml` übereinstimmt, können Sie alle Abhängigkeiten installieren, die Poetry für Sie gesperrt hat:
 
-``` bash
-poetry install
+[source,bash]
+----
+$ poetry install
+
 Installing dependencies from lock file
 
 No dependencies to install or update
 
 Installing the current project: project (0.1.0)
-```
+----
 
 Was ist, wenn Ihre virtuelle Umgebung **überflüssige Pakete** enthält, die Sie zuvor installiert haben, aber nicht mehr benötigen? Poetry stört sich nicht an solchen Paketen, auch wenn sie nicht formell in `pyproject.toml` oder `poetry.lock` deklariert sind. Sie könnten sie vor einiger Zeit als optionale Abhängigkeitsgruppen installiert haben oder völlig ausserhalb der Kontrolle von Poetry, zum Beispiel durch direkte Verwendung von `pip`.
 
-``` bash
-poetry run python -m pip install httpie
-```
+[source,bash]
+----
+$ poetry run python -m pip install httpie
+----
 
 Das [`httpie`](https://pypi.org/project/httpie/) Paket bringt indirekt zehn zusätzliche Abhängigkeiten mit sich, die Platz beanspruchen und potenziell mit den eigentlichen Abhängigkeiten Ihres Projekts interferieren könnten. Darüber hinaus könnten externe Pakete manchmal Sicherheitslücken erzeugen, wenn Sie sie nicht auf dem neuesten Stand halten.
 
 Um Ihre **virtuelle Umgebung** mit den in `poetry.lock` fixierten Paketen zu synchronisieren, können Sie den optionalen `--sync` Flag zum `poetry install` Befehl hinzufügen:
 
-``` bash
-poetry install --sync
+[source,bash]
+----
+$ poetry install --sync
+
 Installing dependencies from lock file
 
 Package operations: 0 installs, 1 update, 10 removals
@@ -748,11 +752,11 @@ Package operations: 0 installs, 1 update, 10 removals
   - Updating requests (2.31.0 -> 2.32.3)
 
 Installing the current project: project (0.1.0)
-```
+----
 
 Dies stellt sicher, dass Ihre virtuelle Umgebung nur die in Ihren `pyproject.toml` und `poetry.lock` Dateien angegebenen Pakete enthält und verhindert potenzielle Konflikte, die durch unnötige oder veraltete Abhängigkeiten verursacht werden könnten.
 
-### Aktualisieren von Abhängigkeiten
+==== Aktualisieren von Abhängigkeiten
 
 Nehmen wir an, Sie haben im Dezember 2020 die Requests-Bibliothek zu Ihrem Projekt hinzugefügt, als die neueste Version dieser Bibliothek die [2.25.1 Veröffentlichung](https://pypi.org/project/requests/2.25.1/) war. Standardmässig hat Poetry in Ihrer `pyproject.toml` Datei eine **permissive Versionsbeschränkung** konfiguriert, die ein Caret (`^2.25.1`) beinhaltet, um zukünftige nicht-zerstörende Updates zu ermöglichen.
 
@@ -760,26 +764,30 @@ Im Laufe der Jahre haben Sie Ihrem Projekt mit `poetry add` viele weitere Abhän
 
 Springen Sie vorwärts zur Zeit der Abfassung, als die Bibliotheksversion [2.31.0](https://pypi.org/project/requests/2.31.0/) eine Spitzenversion geworden ist. Um dies zu überprüfen, können Sie Poetry bitten, Ihre gesperrten Abhängigkeiten mit ihren **neuesten Veröffentlichungen auf PyPI** zu vergleichen, indem Sie diesen Befehl ausführen:
 
-``` bash
-poetry show --latest --top-level
+[source,bash]
+----
+$ poetry show --latest --top-level
+
 beautifulsoup4     4.12.3      4.12.3      Screen-scraping library
 black              24.10.0     24.10.0     The uncompromising code formatter
 ...
 pytest             8.3.3       8.3.3       pytest: simple powerful testing with Python
 requests           2.32.3      2.32.3      Python HTTP-for-Humans
 ...
-```
+----
 
 Diese neue Version erfüllt weiterhin Ihre Versionsbeschränkung für Anfragen, daher sollte Poetry sie akzeptieren. Wenn Sie jedoch versuchen, `poetry install` erneut auszuführen, passiert nichts:
 
-``` bash
-poetry install
+[source,bash]
+----
+$ poetry install
+
 Installing dependencies from lock file
 
 No dependencies to install or update
 
 Installing the current project: project (0.1.0)
-```
+----
 
 Denken Sie daran, dass der Befehl `poetry install` die `poetry.lock` Datei gegenüber Ihren in `pyproject.toml` deklarierten Versionseinschränkungen priorisiert, um reproduzierbare Umgebungen zu gewährleisten. Wenn Sie Abhängigkeiten mit kompatiblen Versionen aktualisieren möchten, haben Sie folgende Möglichkeiten:
 
@@ -791,8 +799,10 @@ Wie bereits erwähnt, hat die erste Option ihre Nachteile, da sie Poetry dazu zw
 
 Das Aktualisieren von Abhängigkeiten birgt immer ein gewisses Risiko. Um besser zu verstehen, was gleich passieren wird, können Sie Poetry bitten, einen **Probelauf** durchzuführen, bevor Sie den Sprung wagen:
 
-``` bash
-poetry update --dry-run
+[source,bash]
+----
+$ poetry update --dry-run
+
 Updating dependencies
 Resolving dependencies... (0.4s)
 
@@ -803,19 +813,21 @@ Package operations: 0 installs, 0 updates, 0 removals, 32 skipped
   - Installing beautifulsoup4 (4.12.3): Skipped for the following reason: Already installed
 
 ...
-```
+----
 
 Normalerweise müssen Sie, um eine **Abhängigkeit auf eine Version zu aktualisieren**, die ausserhalb der in Ihrer `pyproject.toml`-Datei deklarierten Versionsbeschränkungen liegt, diese Datei vorher anpassen. Alternativ können Sie eine Abhängigkeit mit dem Befehl `poetry add` und dem [at Operator (`@`)](https://python-poetry.org/docs/dependency-specification/#using-the--operator) sowie einem speziellen Schlüsselwort, `latest`, auf die **neueste Version** erzwingen.
 
-``` bash
-poetry add requests@latest
-```
+[source,bash]
+----
+$ poetry add requests@latest
+----
 
 Wenn Sie den Befehl `poetry add` mit dem Schlüsselwort `latest` ausführen, wird Poetry Ihre aktuelle Versionseinschränkung in `pyproject.toml` ignorieren und sie durch eine neue Einschränkung ersetzen, die auf der neuesten gefundenen Version basiert. Es ist, als ob Sie diese Abhängigkeit noch nie zuvor zu Ihrem Projekt hinzugefügt hätten. Verwenden Sie diese Option mit Vorsicht, da eine inkompatible Version einer Ihrer Abhängigkeiten das Projekt beschädigen könnte.
 
 Wenn Sie jetzt Ihre `pyproject.toml` Datei öffnen, wird die Versionseinschränkung für die Requests-Bibliothek wie folgt aussehen:
 
-``` toml
+[source,toml]
+----
 [tool.poetry]
 name = "project"
 version = "0.1.0"
@@ -828,13 +840,13 @@ packages = [{include = "project", from = "src"}]
 requests = "^2.32.3"               # <- Die Version wurde aktualisiert
 python = "^3.12"
 ...
-```
+----
 
 Ohne das `latest` Schlüsselwort oder eine explizite Versionsbeschränkung im `poetry add` Befehl zu verwenden, würde Poetry schlussfolgern, dass das angeforderte Paket bereits in Ihrem Projekt vorhanden ist und nichts tun.
 
 Nun haben Sie verstanden, wie Poetry `pyproject.toml` und `poetry.lock` verwendet. Als nächstes werfen Sie einen letzten Blick auf beide Dateien.
 
-### Vergleich von pyproject.toml und poetry.lock
+==== Vergleich von pyproject.toml und poetry.lock
 
 Die Versionsbeschränkungen der in Ihrer `pyproject.toml`-Datei deklarierten Abhängigkeiten können ziemlich locker sein. Dies ermöglicht eine gewisse Flexibilität bei der Einbeziehung von **Fehlerbehebungen** oder der Lösung von **Versionskonflikten**. Indem mehr Paketversionen zur Auswahl stehen, ist Poetry eher in der Lage, eine Kombination von kompatiblen Abhängigkeiten zu finden.
 
@@ -846,24 +858,26 @@ Wenn Sie eine [Bibliothek entwickeln](https://python-poetry.org/docs/basic-usage
 
 Wenn Sie auf ein Repository stoßen, das eine `poetry.lock` Datei enthält, ist es eine gute Idee, Poetry zur Verwaltung seiner Abhängigkeiten zu verwenden. Andererseits, wenn andere Entwickler in Ihrem Team Poetry noch nicht verwenden, sollten Sie sich mit ihnen über die mögliche Einführung von Poetry im gesamten Team abstimmen, bevor Sie Entscheidungen treffen. Sie müssen immer die Kompatibilität mit anderen Abhängigkeitsverwaltungstools aufrechterhalten, die das Team verwenden könnte.
 
-## Poetry in einem bestehenden Projekt verwenden
+=== Poetry in einem bestehenden Projekt verwenden
 
 Es ist wahrscheinlich, dass Sie bereits einige Projekte haben, die nicht mit dem Befehl `poetry new` gestartet wurden. Oder vielleicht haben Sie ein Projekt geerbt, das nicht mit Poetry erstellt wurde, aber jetzt möchten Sie Poetry für Ihr Abhängigkeitsmanagement verwenden. In solchen Situationen können Sie Poetry zu bestehenden Python-Projekten hinzufügen.
 
-### Einen Ordner in ein Poetry-Projekt umwandeln
+==== Einen Ordner in ein Poetry-Projekt umwandeln
 
 Angenommen, Sie haben einen `my-hello` Ordner mit einem `hello.py` Skript darin:
 
 Es ist das klassische [`Hello, World!` Programm](https://en.wikipedia.org/wiki/%22Hello,_World!%22_program), welches den berühmten String auf dem Bildschirm ausgibt. Aber vielleicht ist dies nur der Anfang eines grossen Projekts, also entscheiden Sie sich, Poetry hinzuzufügen. Anstatt den `poetry new` Befehl von vorher zu verwenden, verwenden Sie den [`poetry init`](https://python-poetry.org/docs/cli/#init) Befehl in Ihrem Projektordner:
 
-``` bash
-cd my-hallo
-poetry init
-```
+[source,bash]
+----
+$ cd my-hallo
+$ poetry init
+----
 
 Dieser Befehl führt Sie durch die Erstellung Ihrer pyproject.toml Konfiguration.
 
-``` bash
+[source,bash]
+----
 poetry init
 
 This command will guide you through creating your pyproject.toml config.
@@ -879,11 +893,12 @@ Would you like to define your main dependencies interactively? (yes/no) [yes] no
 Would you like to define your development dependencies interactively? (yes/no) [yes] no
 
 (...)
-```
+----
 
 Der Befehl `poetry init` sammelt die notwendigen Informationen, um eine `pyproject.toml` Datei zu generieren, indem er Ihnen interaktiv Fragen stellt. Er gibt Ihnen Empfehlungen mit sinnvollen Standardwerten für die meisten Konfigurationen, die Sie einrichten müssen, und Sie können Enter drücken, um sie zu akzeptieren. Wenn Sie keine Abhängigkeiten deklarieren, sieht die `pyproject.toml` Datei, die Poetry erstellt, ungefähr so aus:
 
-``` toml
+[source,toml]
+----
 [tool.poetry]
 name = "my-hello"
 version = "0.1.0"
@@ -899,25 +914,29 @@ python = "^3.13"
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
-```
+----
 
 Dieser Inhalt ähnelt den Beispielen, die Sie in den vorherigen Abschnitten durchgegangen sind.
 
 Nun können Sie alle Befehle verwenden, die Poetry bietet. Mit einer vorhandenen `pyproject.toml` Datei können Sie nun Ihr Skript aus einer isolierten virtuellen Umgebung ausführen.
 
-``` bash
-poetry run python hello.py
+[source,bash]
+----
+$ poetry run python hello.py
+
 Creating virtualenv my-hello-qs2Rris8-py3.13 in /Users/daniel/Library/Caches/pypoetry/virtualenvs
 Hello, World
-```
+----
 
 Da Poetry keine virtuellen Umgebungen zum Verwenden gefunden hat, hat es eine neue erstellt, bevor es Ihr Skript ausgeführt hat. Nachdem dies geschehen ist, zeigt es Ihre `Hello, World` Nachricht ohne Fehler an. Das bedeutet, dass Sie nun ein funktionierendes Poetry-Projekt haben.
 
-### Abhängigkeiten in Poetry importieren
+==== Abhängigkeiten in Poetry importieren
 
 Manchmal hast du ein Projekt, das bereits mit seiner eigenen [Anforderungsdatei] kommt, die alle externen Abhängigkeiten auflistet. Schau dir die `requirements.txt` Datei dieses [Python Web Scraper] Projekts an:
 
-``` txt
+.requirements.txt
+[text]
+----
 beautifulsoup4==4.9.3
 certifi==2020.12.5
 chardet==4.0.0
@@ -925,14 +944,15 @@ idna==2.10
 requests==2.25.1
 soupsieve==2.2.1
 urllib3==1.26.4
-```
+----
 
 Dieses Projekt erfordert sieben Drittanbieter-Pakete, um ordnungsgemäss zu funktionieren. Zugegeben, nur die [Requests] und [Beautiful Soup](https://beautiful-soup-4.readthedocs.io/en/latest/) Bibliotheken werden direkt im Quellcode referenziert, während der Rest als ihre transitive Abhängigkeiten eingezogen wird.
 
 Poetry kommt standardmässig nicht mit solchen Anforderungsdateien zurecht, da sie die Abhängigkeiten Ihres Projekts anderswo speichert. Sobald Sie jedoch ein Poetry-Projekt mit `poetry init` erstellt haben, können Sie schnell eine vorhandene `requirements.txt`-Datei in das Projekt importieren, indem Sie diesen Befehl verwenden:
 
-``` bash
-poetry add $(cat requirements.txt)
+[source,bash]
+----
+$ poetry add $(cat requirements.txt)
 
 Updating dependencies
 Resolving dependencies... (1.3s)
@@ -948,13 +968,14 @@ Package operations: 7 installs, 0 updates, 0 removals
   - Installing requests (2.25.1)
 
 Writing lock file
-```
+----
 
 Das [`cat`](https://en.wikipedia.org/wiki/Cat_(Unix)) Hilfsprogramm liest die angegebene Datei und schreibt ihren Inhalt in den Standardausgabestrom. In diesem Fall leiten Sie diesen Inhalt mit Hilfe der [Befehlssubstitutionssyntax](https://en.wikipedia.org/wiki/Command_substitution) der Shell an den `poetry add` Befehl weiter. Dies installiert wiederum jede in der `requirements.txt` Datei aufgeführte Abhängigkeit in Ihr Poetry-Projekt.
 
 Wenn eine Anforderungsdatei so einfach ist wie diese, können `poetry add` und `cat` Ihnen einige manuelle Arbeiten ersparen. Dies ist jedoch nicht ideal, da alle Abhängigkeiten in Ihrer `pyproject.toml` Datei aufgelistet werden.
 
-``` toml
+[source,toml]
+----
 [tool.poetry]
 name = "my-hello"
 version = "0.1.0"
@@ -977,27 +998,27 @@ urllib3 = "1.26.4"        #
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
-```
+----
 
 Normalerweise möchten Sie nur die Pakete auflisten, von denen Ihr Projekt *direkt* abhängt. Abgesehen davon sollten Sie im Allgemeinen vermeiden, genaue Versionsnummern zu verwenden, da dies zu Konflikten mit bestehenden Paketen führen oder Sie daran hindern kann, die neuesten Funktionen und Sicherheitsupdates zu erhalten. Stattdessen sollten Sie einen Versionsbereich angeben, der eine gewisse Flexibilität zulässt, während Sie sich immer noch an die Prinzipien der semantischen Versionierung halten.
 
 In einer perfekten Welt sollte Ihre `pyproject.toml` Datei nur diese zwei Abhängigkeiten mit etwas liberaleren Versionsspezifikationen enthalten:
 
-``` toml
+[source,toml]
+----
 [tool.poetry.dependencies]
 python = "^3.13"
 beautifulsoup4 = "^4.9.3"
 requests = "^2.25.1"
-
-...
-```
+----
 
 Poetry wird die verbleibenden Abhängigkeiten auflösen und sie in der entsprechenden `poetry.lock` Datei sperren.
 
 Nun, wenn Sie [die Abhängigkeiten Ihres Projekts](https://python-poetry.org/docs/cli/#show) als Baum anzeigen, wissen Sie genau, welche davon direkt von Ihrem Projekt verwendet werden und welche deren transitive Abhängigkeiten sind.
 
-``` bash
-poetry show --tree
+[source,bash]
+----
+$ poetry show --tree
 
 beautifulsoup4 4.12.3 Screen-scraping library
 └── soupsieve >1.2
@@ -1006,17 +1027,18 @@ requests 2.32.3 Python HTTP for Humans.
 ├── charset-normalizer >=2,<4
 ├── idna >=2.5,<4
 └── urllib3 >=1.21.1,<3
-```
+----
 
-### Abhängigkeiten von Poetry exportieren
+==== Abhängigkeiten von Poetry exportieren
 
 In einigen Situationen müssen Sie eine `requirements.txt` Datei haben. Zum Beispiel möchten Sie vielleicht Ihr Django-Projekt auf Heroku hosten, das die `requirements.txt` Datei erwartet, um zu bestimmen, welche Abhängigkeiten zu installieren sind. Poetry gibt Ihnen einige Optionen, um diese Datei zu erstellen.
 
 Solange die virtuelle Umgebung Ihres Projekts auf dem neuesten Stand ist, können Sie Ihre Abhängigkeitsversionen mit dem traditionellen `pip freeze` Befehl festlegen:
 
-``` bash
-poetry run python -m pip freeze > requirements.txt
-```
+[source,bash]
+----
+$ poetry run python -m pip freeze > requirements.txt
+----
 
 Um den Befehl im Kontext Ihrer von Poetry verwalteten virtuellen Projektumgebung auszuführen, müssen Sie `poetry run` verwenden. Alternativ könnten Sie die virtuelle Umgebung in einer [interaktiven Shell](https://python-poetry.org/docs/cli#shell) aktiviert und dann den gleichen Befehl von dort aus ausgeführt haben. So oder so, Sie müssen zuerst sicherstellen, dass alle erforderlichen Abhängigkeiten in ihren erwarteten Versionen installiert sind, zum Beispiel durch Ausgabe des Befehls `poetry install`.
 
@@ -1030,29 +1052,32 @@ Je nachdem, wie Sie Poetry selbst installiert haben, sind dies die Befehle, die 
 
 Sobald das Plugin installiert ist, können Sie den folgenden Befehl verwenden, um Abhängigkeiten von Ihrem von Poetry verwalteten Projekt in eine `requirements.txt` Datei zu exportieren:
 
-``` bash
-poetry export --output requirements.txt
-```
+[source,bash]
+----
+$ poetry export --output requirements.txt
+----
 
 Die resultierende Datei enthält standardmässig [Hashes](https://pip.pypa.io/en/stable/topics/secure-installs/#hash-checking-mode) und [Umgebungsmarker](https://www.python.org/dev/peps/pep-0508/#environment-markers), was bedeutet, dass Sie mit sehr strengen Anforderungen arbeiten können, die dem Inhalt Ihrer `poetry.lock` Datei ähneln. Tatsächlich benötigt das Export-Plugin die Lock-Datei, um die Anforderungsdatei zu generieren. Wenn diese Datei nicht existiert, erstellt Poetry sie nach dem Auflösen und Sperren Ihrer Abhängigkeiten.
 
 Obwohl das Plugin die Sperrdatei betrachtet, um ein Gesamtbild der Abhängigkeiten Ihres Projekts zu erhalten, exportiert es nur Abhängigkeiten aus der impliziten **Hauptgruppe** in Ihrer `pyproject.toml`-Datei. Wenn Sie zusätzliche Abhängigkeiten aus **Abhängigkeitsgruppen** einschließen möchten, einschließlich der optionalen und nicht optionalen Gruppen, verwenden Sie dann den Parameter `--with`, gefolgt von kommagetrennten Namen dieser Gruppen:
 
-``` bash
-poetry export --output requirements.txt --with dev,test
-```
+[source,bash]
+----
+$ poetry export --output requirements.txt --with dev,test
+----
 
 Umgekehrt, um eine Anforderungsdatei mit Abhängigkeiten zu erstellen, die nur zu einigen Ihrer Abhängigkeitsgruppen gehören, während die implizite `main` Gruppe ausgeschlossen wird, verwenden Sie die `--only` Option:
 
-``` bash
-poetry export --output requirements-dev.txt --only development
-```
+[source,bash]
+----
+$ poetry export --output requirements-dev.txt --only development
+----
 
 In allen Fällen werden die **Extras** mit optionalen Abhängigkeiten nicht exportiert. Um sie ebenfalls einzuschließen, müssen Sie sie entweder explizit auflisten, indem Sie den Parameter `--extras` wiederholen, oder sie alle auf einmal mit der Flag `--all-extras` aktivieren.
 
 Sie haben vielleicht bemerkt, dass das Export-Plugin einige Optionen mit dem Befehl `poetry install` teilt, den Sie zuvor gesehen haben. Das ist kein Zufall. Um die verfügbaren Optionen des Plugins und ihre Beschreibungen anzuzeigen, führen Sie `poetry export --help` in Ihrem Terminal aus.
 
-## Befehlsreferenz
+=== Befehlsreferenz
 
 In diesem Tutorial haben Sie eine Einführung in das Abhängigkeitsmanagement von Poetry erhalten. Dabei haben Sie einige Befehle der Kommandozeilenschnittstelle (CLI) von Poetry verwendet:
 

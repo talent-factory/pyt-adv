@@ -1,0 +1,10 @@
+= Advanced Python
+:doctype: book
+Daniel Senften <daniel.senften@talent-factory.ch>
+include::locale/attributes-de.adoc[]
+:toc: left
+:sectnums:
+:quick-uri: https://docs.asciidoctor.org/asciidoc/latest/syntax-quick-reference/
+
+// Hinzufügen aller Dokumente
+include::poetry.adoc[]
