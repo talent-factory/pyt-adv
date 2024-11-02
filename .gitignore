@@ -1,3 +1,5 @@
 # JetBrains specific files
 .idea/
 *.iml
+
+.codebuddy/
