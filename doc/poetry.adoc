@@ -16,63 +16,129 @@ Wenn Ihr Python-Projekt auf externe Pakete angewiesen ist, müssen Sie sicherste
 - Installieren Sie Abhängigkeiten aus einer **`poetry.lock`** Datei
 - Führen Sie grundlegende Poetry-Befehle mit der **Poetry CLI** aus
 
-{poetry}[Poetry] hilft Ihnen, neue Projekte zu erstellen oder bestehende Projekte zu pflegen, während es sich um die **Abhängigkeitsverwaltung** für Sie kümmert. Es verwendet die `pyproject.toml` Datei, die zum Standard für die Definition von Build-Anforderungen in modernen Python-Projekten geworden ist.
+{poetry}[Poetry] hilft Ihnen, neue Projekte zu erstellen oder bestehende Projekte zu pflegen,
+während es sich um die **Abhängigkeitsverwaltung** für Sie kümmert. Es verwendet die `pyproject.toml`
+Datei, die zum Standard für die Definition von Build-Anforderungen in modernen Python-Projekten
+geworden ist.
 
-Um dieses Tutorial abzuschliessen und das Beste daraus zu holen, sollten Sie ein grundlegendes Verständnis von [virtuellen Umgebungen], [Modulen und Paketen] und [`pip`] haben.
+Um dieses Tutorial abzuschliessen und das Beste daraus zu holen, sollten Sie ein grundlegendes
+Verständnis von [virtuellen Umgebungen], [Modulen und Paketen] und [`pip`] haben.
 
-Während Sie sich in diesem Tutorial auf die Abhängigkeitsverwaltung konzentrieren, kann Poetry Ihnen auch dabei helfen, ein [Vertriebspaket zu erstellen](https://python-poetry.org/docs/cli/#build) für Ihr Projekt. Wenn Sie Ihre Arbeit teilen möchten, dann können Sie Poetry verwenden, um Ihr Projekt auf dem [Python Packaging Index (PyPI)](https://pypi.org/) zu [veröffentlichen](https://python-poetry.org/docs/cli/#publish).
+:poetry-cli-build: https://python-poetry.org/docs/cli/#build
+:PyPI: https://pypi.org/
+:poetry-cli-publish: https://python-poetry.org/docs/cli/#publish
+
+Während wir uns in diesem Tutorial auf die Abhängigkeitsverwaltung konzentrieren,
+kann Poetry auch dabei helfen, ein {poetry-cli-build}[Vertriebspaket zu erstellen]
+für das Projekt. Wenn wir die Arbeit teilen möchten, dann können wir Poetry verwenden,
+um Ihr Projekt auf dem {PyPI}[Python Packaging Index (PyPI)] zu
+{poetry}[veröffentlichen].
 
 === Voraussetzungen
 
-Bevor Sie sich in die Feinheiten von Python Poetry vertiefen, kümmern Sie sich um einige Voraussetzungen. Zuerst lesen Sie einen kurzen Überblick über die Terminologie, die Sie in diesem Tutorial antreffen werden. Als nächstes installieren Sie Poetry selbst.
+Bevor wir uns in die Feinheiten von Python Poetry vertiefen, kümmern wir uns um
+einige Voraussetzungen. Zuerst lesen wir einen kurzen Überblick über die Terminologie,
+die wir in diesem Tutorial antreffen werden. Als Nächstes installieren Sie Poetry selbst.
 
 ==== Terminologien
 
-Wenn Sie jemals eine [`import` Anweisung] in einem Ihrer Python-Skripte verwendet haben, dann haben Sie mit **Modulen** und **Paketen** gearbeitet. Einige davon könnten Python-Dateien sein, die Sie selbst geschrieben haben. Andere könnten **Standardbibliotheks-Module** sein, die mit Python geliefert werden, wie [`datetime`]. Manchmal reicht jedoch das, was Python bietet, nicht aus. Das ist der Moment, in dem Sie sich möglicherweise an externe Module und Pakete wenden, die von Dritten gepflegt werden.
+Wenn Sie jemals eine [`import` Anweisung] in einem Ihrer Python-Skripte verwendet haben,
+dann haben Sie mit **Modulen** und **Paketen** gearbeitet. Einige davon könnten
+Python-Dateien sein, die Sie selbst geschrieben haben. Andere könnten
+**Standardbibliotheks-Module** sein, die mit Python geliefert werden, wie
+[`datetime`]. Manchmal reicht jedoch das, was Python bietet, nicht aus. Das ist
+der Moment, in dem Sie sich möglicherweise an externe Module und Pakete wenden,
+die von Dritten gepflegt werden.
 
-Wenn Ihr Python-Code auf solche externen Module und Pakete angewiesen ist, werden diese zu den **Anforderungen** oder **Abhängigkeiten** Ihres Projekts.
+Wenn Ihr Python-Code auf solche externen Module und Pakete angewiesen ist, werden
+diese zu den **Anforderungen** oder **Abhängigkeiten** Ihres Projekts.
 
-Um Pakete zu finden, die von der Python-Community beigetragen wurden und nicht Teil der [Python-Standardbibliothek](https://docs.python.org/3/py-modindex.html) sind, können Sie [PyPI](https://pypi.org/) durchsuchen. Sobald Sie ein Paket gefunden haben, das Sie interessiert, können Sie Poetry verwenden, um dieses Paket in Ihrem Projekt zu verwalten und zu installieren. Bevor Sie sehen, wie das funktioniert, müssen Sie Poetry auf Ihrem System installieren.
+:py-modindex: https://docs.python.org/3/py-modindex.html
+
+Um Pakete zu finden, die von der Python-Community beigetragen wurden und nicht
+Teil der {py-modindex}[Python-Standardbibliothek] sind, können Sie {PyPI}[PyPI]
+durchsuchen. Sobald Sie ein Paket gefunden haben, das Sie interessiert,
+können Sie Poetry verwenden, um dieses Paket in Ihrem Projekt zu verwalten
+und zu installieren. Bevor Sie sehen, wie das funktioniert, müssen Sie Poetry
+auf Ihrem System installieren.
 
 ==== Installation von Poetry
 
-Poetry wird als ein [Python-Paket selbst](https://pypi.org/project/poetry/) verteilt, was bedeutet, dass Sie es in eine virtuelle Umgebung mit `pip` installieren können, genau wie jedes andere externe Paket:
+:poetry: (https://pypi.org/project/poetry/
+Poetry wird als ein {poetry}[Python-Paket selbst] verteilt, was bedeutet, dass Sie
+es in eine virtuelle Umgebung mit `pip` installieren können, genau wie jedes
+andere externe Paket:
 
 [source,bash]
 ----
 python3 -m pip install poetry
 ----
 
-Das ist in Ordnung, wenn Sie es nur schnell ausprobieren möchten. Die [offizielle Dokumentation](https://python-poetry.org/docs/) rät jedoch *dringend davon ab*, Poetry in die virtuelle Umgebung Ihres Projekts zu installieren, die das Tool verwalten muss. Da Poetry selbst auf mehrere externe Pakete angewiesen ist, besteht die Gefahr eines **Abhängigkeitskonflikts** zwischen einer Ihrer Projektabhängigkeiten und denen, die von Poetry benötigt werden. Dies könnte dazu führen, dass Poetry oder Ihr Code nicht richtig funktioniert.
+:poetry-docs: https://python-poetry.org/docs/
 
-In der Praxis möchten Sie Poetry immer von jeder virtuellen Umgebung trennen, die Sie für Ihre Python-Projekte erstellen. Sie möchten Poetry auch **systemweit** installieren, um darauf als eigenständige Anwendung zuzugreifen, unabhängig von der spezifischen virtuellen Umgebung oder Python-Version, in der Sie gerade arbeiten.
+Das ist in Ordnung, wenn Sie es nur schnell ausprobieren möchten.
+Die {poetry-docs}[offizielle Dokumentation] rät jedoch *dringend davon ab*,
+Poetry in die virtuelle Umgebung Ihres Projekts zu installieren, die das Tool
+verwalten muss. Da Poetry selbst auf mehrere externe Pakete angewiesen ist,
+besteht die Gefahr eines **Abhängigkeitskonflikts** zwischen einer Ihrer
+Projektabhängigkeiten und denen, die von Poetry benötigt werden.
+Dies könnte dazu führen, dass Poetry oder Ihr Code nicht richtig funktioniert.
 
-Es gibt mehrere Möglichkeiten, Poetry auf Ihrem Computer zum Laufen zu bringen, einschließlich:
+In der Praxis möchten Sie Poetry immer von jeder virtuellen Umgebung trennen,
+die Sie für Ihre Python-Projekte erstellen. Sie möchten Poetry auch
+**systemweit** installieren, um darauf als eigenständige Anwendung zuzugreifen,
+unabhängig von der spezifischen virtuellen Umgebung oder Python-Version,
+in der Sie gerade arbeiten.
+
+Es gibt mehrere Möglichkeiten, Poetry auf Ihrem Computer zum Laufen zu bringen,
+einschließlich:
 
 1.  Ein Werkzeug namens `pipx`
 2.  Der offizielle Installer
 3.  Manuelle Installation
 4.  Vorgefertigte Systempakete
 
-In den meisten Fällen ist der *empfohlene Weg zur Installation von Poetry* mit Hilfe von `pipx`, das sich um die Erstellung und Pflege isolierter virtueller Umgebungen für Python-Anwendungen in der Befehlszeile kümmert. Nachdem Sie [`pipx` installiert](https://pipx.pypa.io/stable/installation/) haben, können Sie Poetry installieren, indem Sie den folgenden Befehl in Ihrem Terminalfenster ausführen:
+:pipx-installation: https://pipx.pypa.io/stable/installation/
+
+In den meisten Fällen ist der *empfohlene Weg zur Installation von Poetry*
+mithilfe von `pipx`, das sich um die Erstellung und Pflege isolierter virtueller
+Umgebungen für Python-Anwendungen in der Befehlszeile kümmert. Nachdem Sie
+{pipx-installation}[`pipx` installiert] haben, können Sie Poetry installieren,
+indem Sie den folgenden Befehl in Ihrem Terminalfenster ausführen:
 
 [source,bash]
 ----
 pipx install poetry
 ----
 
-Obwohl dieser Befehl sehr ähnlich zu dem aussieht, den du zuvor gesehen hast, wird er Poetry in einer dedizierten virtuellen Umgebung installieren, die nicht mit anderen Python-Paketen geteilt wird.
+Obwohl dieser Befehl sehr ähnlich zu dem aussieht, den du zuvor gesehen hast,
+wird er Poetry in einer dedizierten virtuellen Umgebung installieren,
+die nicht mit anderen Python-Paketen geteilt wird.
 
-Entscheidend ist, dass `pipx` auch einen Alias für das `poetry`-Ausführbare in Ihrer [Shell](https://de.wikipedia.org/wiki/Shell_(Informatik)) setzt, sodass Sie Poetry aus jedem Verzeichnis aufrufen können, ohne die zugehörige virtuelle Umgebung manuell zu aktivieren:
+:shell: https://de.wikipedia.org/wiki/Shell_(Informatik)
 
-``` bash
+Entscheidend ist, dass `pipx` auch einen Alias für das `poetry`-Ausführbare
+in Ihrer {shell}[Shell] setzt, sodass Sie Poetry aus jedem Verzeichnis aufrufen
+können, ohne die zugehörige virtuelle Umgebung manuell zu aktivieren:
+
+[source,bash]
+----
 poetry --version
 Poetry (version 1.8.4)
-```
+----
 
-Wenn Sie `poetry` in Ihrem Terminal oder PowerShell-Konsole eingeben, beziehen Sie sich immer auf das ausführbare Skript, das in seiner isolierten virtuellen Umgebung installiert ist. Tatsächlich führen Sie den `poetry` Befehl oft innerhalb einer aktiven virtuellen Umgebung Ihres Projekts aus, und Poetry wird es korrekt aufnehmen!
+Wenn Sie `poetry` in Ihrem Terminal oder PowerShell-Konsole eingeben,
+beziehen Sie sich immer auf das ausführbare Skript, das in seiner isolierten
+virtuellen Umgebung installiert ist. Tatsächlich führen Sie den `poetry`
+Befehl oft innerhalb einer aktiven virtuellen Umgebung Ihres Projekts aus,
+und Poetry wird es korrekt aufnehmen!
 
-Falls Sie aus irgendeinem Grund `pipx` nicht verwenden können oder möchten, dann ist das Nächstbeste, was Sie tun können, die Nutzung des [**offiziellen Installers**](https://github.com/python-poetry/install.python-poetry.org), den Sie herunterladen und mit einem Befehl wie diesem ausführen können:
+:poetry-org: https://github.com/python-poetry/install.python-poetry.org
+
+Falls Sie aus irgendeinem Grund `pipx` nicht verwenden können oder möchten,
+dann ist das Nächstbeste, was Sie tun können, die Nutzung des
+{poetry-org}[**offiziellen Installers**], den Sie herunterladen und mit
+einem Befehl wie diesem ausführen können:
 
 [souce,bash]
 ----
@@ -96,61 +162,90 @@ sudo apt install python3-poetry
 
 Beachten Sie, dass die auf diese Weise verpackte Poetry-Version möglicherweise nicht die neueste ist. Darüber hinaus kann das native Paket Hunderte von Megabyte zusätzlicher Abhängigkeiten mitbringen, wie zum Beispiel einen weiteren Python-Interpreter, der völlig unnötig wäre, wenn Sie Poetry mit einer der früheren Methoden installiert hätten.
 
-Sobald die Poetry-Installation abgeschlossen ist, können Sie bestätigen, dass sie korrekt funktioniert, indem Sie `poetry --version` in Ihre Befehlszeile eingeben. Dies sollte Ihre aktuelle Version von Poetry ausgeben.
+Sobald die Poetry-Installation abgeschlossen ist, können wir überprüfen, dass sie korrekt
+funktioniert, indem wir `poetry --version` in Ihre Befehlszeile eingeben. Dies sollte
+die aktuelle Version von Poetry ausgeben.
 
-> **Hinweis**
->
-> Je nachdem, wie Sie Poetry installiert haben, können Sie einen dieser Befehle versuchen, um es zu aktualisieren:
->
-> - `python3 -m pip install --upgrade poetry`
-> - `pipx upgrade poetry`
-> - `poetry self update`
-> - `sudo apt install --only-upgrade python3-poetry`
->
-> Alle bis auf den letzten sollten im Allgemeinen sicherstellen, dass Sie die neueste Version von Poetry auf Ihrem Computer installiert haben.
 
-Nun, da Sie überprüft haben, dass Poetry korrekt installiert wurde, ist es an der Zeit zu sehen, wie es funktioniert.
+Je nachdem, wie wir Poetry installiert haben, können wir einen der folgenden Befehle versuchen,
+um es zu aktualisieren:
+
+[NOTE]
+.Aktualisieren von Poetry
+====
+* `python3 -m pip install --upgrade poetry`
+* `pipx upgrade poetry`
+* `poetry self update`
+* `sudo apt install --only-upgrade python3-poetry`
+====
+
+Im Allgemeinen sollten wir sicherstellen, dass immer die neuste Version von Poetry
+installiert ist.
+
+
+Nun, da wir überprüft haben, dass Poetry korrekt installiert wurde, ist es an der Zeit
+zu sehen, wie es funktioniert.
 
 
 === Erste Schritte mit Python Poetry
 
-In diesem Abschnitt lernen Sie, wie Sie ein neues Poetry-Projekt mit der Befehlszeilenschnittstelle (CLI) des Tools erstellen. Sie werden auch die Projektstruktur erkunden und die `pyproject.toml` Datei inspizieren, welche die Metadaten und Konfiguration des Projekts beinhaltet.
+In diesem Abschnitt lernen wir, wie wir ein neues Poetry-Projekt mit der
+Befehlszeilenschnittstelle (CLI) des Tools erstellen. Wir werden auch die Projektstruktur
+erkunden und die `pyproject.toml` Datei inspizieren, welche die Metadaten und
+Konfiguration des Projekts beinhaltet.
 
 ==== Erstellen eines neues Poetry-Projekt
 
-Um ein neues Poetry-Projekt von Grund auf neu zu erstellen, verwenden Sie den Befehl [`poetry new`](https://python-poetry.org/docs/cli/#new) gefolgt vom gewünschten Projektnamen. In diesem Tutorial arbeiten Sie an einem Projekt namens `my-poetry`. Machen Sie weiter, erstellen Sie dieses Projekt jetzt und navigieren Sie dann in das neu erstellte Verzeichnis, indem Sie die folgenden Befehle in Ihrem Terminal eingeben:
+:poetry-cli-new: https://python-poetry.org/docs/cli/#new
+
+Um ein neues Poetry-Projekt von Grund auf neu zu erstellen, verwenden wir den Befehl
+{poetry-cli-new}[`poetry new`] gefolgt vom gewünschten Projektnamen. In diesem
+Tutorial arbeiten Sie an einem Projekt namens `my-poetry`. Machen Sie weiter,
+erstellen Sie dieses Projekt jetzt und navigieren Sie dann in das neu erstellte
+Verzeichnis, indem Sie die folgenden Befehle in Ihrem Terminal eingeben:
 
 [source,bash]
 ----
-poetry new my-poetry
-cd my-poetry
+poetry new my-poetry && cd my-poetry
 ----
 
-Das Ausführen von `poetry new my-poetry` erstellt einen neuen Ordner namens `my-poetry`. Wenn Sie in diesen Ordner schauen, sehen Sie die folgende Struktur:
+Das Ausführen von `poetry new my-poetry` erstellt einen neuen Ordner namens `my-poetry`.
+Wenn wir in diesen Ordner schauen, sehen wir die folgende Struktur:
 
 [text]
 ----
 my-poetry
 ├── README.md
 ├── my_poetry
-│   └── __init__.py
+│   └── __init__.py
 ├── pyproject.toml
 └── tests
     └── __init__.py
 ----
 
-Haben Sie bemerkt, wie Poetry den Bindestrich (`-`) im bereitgestellten Namen in einen Unterstrich (`_`) im entsprechenden `my_poetry` Unterordner übersetzt hat? Das Tool normalisiert automatisch Python-Paketnamen für Sie. Dies stellt sicher, dass Sie sie als Python-Pakete importieren können. Andernfalls wäre `my-poetry` kein gültiger Bezeichner, da ein Bindestrich den Minusoperator in der Python-Syntax darstellt.
+Haben Sie bemerkt, wie Poetry den Bindestrich (`-`) im bereitgestellten Namen in einen
+Unterstrich (`_`) im entsprechenden `my_poetry` Unterordner übersetzt hat?
+Das Tool normalisiert automatisch Python-Paketnamen für Sie. Dies stellt sicher,
+dass wir sie als Python-Pakete importieren können. Andernfalls wäre `my-poetry` kein
+gültiger Bezeichner, da ein Bindestrich den Minusoperator in der Python-Syntax darstellt.
 
-Um mehr Kontrolle über den resultierenden **Paketnamen** zu haben, können Sie optional das Argument `--name` übergeben, das es Ihnen ermöglicht, einen anderen Namen für das Python-Paket als Ihren Projektordner anzugeben:
+Um mehr Kontrolle über den resultierenden **Paketnamen** zu haben, können wir optional
+das Argument `--name` übergeben, das es uns ermöglicht, einen anderen Namen für das
+Python-Paket als Ihren Projektordner anzugeben:
 
 [source,bash]
 ----
 poetry new my-poetry --name project
 ----
 
-Beachten Sie, dass Poetry den über dieses Argument bereitgestellten Paketnamen auch normalisiert, sollte er einen Bindestrich enthalten.
+Beachten Sie, dass Poetry den über dieses Argument bereitgestellten Paketnamen auch
+normalisiert, sollte er einen Bindestrich enthalten.
 
-Bei der Erstellung der Ordnerstruktur für ein neues Projekt folgt Poetry standardmäßig dem **flachen Layout**. In diesem Layout befindet sich Ihr Python-Paket auf der obersten Ebene des Projektordners. Eine weitere beliebte Wahl in Python ist das **src Layout**, das den Code in einem zusätzlichen `src/` Elternordner hält. Wenn Sie dieses Layout bevorzugen, dann geben Sie die `--src` Flagge an Poetry weiter, wenn Sie ein neues Projekt erstellen:
+Bei der Erstellung der Ordnerstruktur für ein neues Projekt folgt Poetry standardmässig
+dem **flachen Layout**. In diesem Layout befindet sich das Python-Paket auf der obersten
+Ebene des Projektordners. Eine weitere beliebte Wahl in Python ist das **src Layout**,
+das den Code in einem zusätzlichen `src` Unterordner hält. Wenn wir dieses Layout bevorzugen,
+dann geben wir die `--src` Flagge an Poetry weiter, wenn Sie ein neues Projekt erstellen:
 
 [source,bash]
 ----
@@ -171,31 +266,68 @@ my-poetry
     └── __init__.py
 ----
 
-Nun ist Ihr `project` Paket im `src` Ordner verschachtelt. Sowohl das flache als auch das src Layout haben ihre Vor- und Nachteile, die Sie vergleichen können, indem Sie den [Python Packaging Guide](https://packaging.python.org/en/latest/discussions/src-layout-vs-flat-layout/) lesen, falls Sie interessiert sind. Sie werden jedoch für den Rest dieses Tutorials beim Standard-Flachlayout bleiben.
+:python-layout: https://packaging.python.org/en/latest/discussions/src-layout-vs-flat-layout/
 
-> **Hinweis**
->
-> Es ist möglich, eine benutzerdefinierte Ordnerstruktur anzugeben und sogar mehrere Python-Pakete in einem Poetry-Projekt zu haben. Dies kann in grösseren Projekten nützlich sein, die in mehrere, separate Komponenten organisiert werden müssen. 
->
-> Um dies mit Poetry zu erreichen, müssen Sie jedoch die Konfigurationsdatei Ihres Projekts von Hand bearbeiten. Weitere Details finden Sie in der [offiziellen Dokumentation](https://python-poetry.org/docs/pyproject#packages).
+Nun ist das `project` Paket im `src` Ordner verschachtelt. Sowohl das flache als auch
+das src Layout haben ihre Vor- und Nachteile. Weitere Informationen hierzu können jederzeit
+dem {python-layout}[Python Packaging Guide] entnommen werden.
+Wir werden jedoch für den Rest dieses Tutorials beim Standard-Flachlayout bleiben.
 
-Wie Sie sehen können, ist das Erstellen eines neuen Projekts mit Poetry ziemlich einfach und bequem. Sie erhalten kostenlos eine grundlegende Ordnerstruktur, ohne zu viel darüber nachdenken zu müssen, wie Sie Ihre Python-Dateien organisieren.
+[NOTE]
+.Verwenden einer eigenen Paketstruktur
+====
+Es ist möglich, eine benutzerdefinierte Ordnerstruktur anzugeben und sogar mehrere
+Python-Pakete in einem Poetry-Projekt zu haben. Dies kann in grösseren Projekten
+nützlich sein, die in mehrere, separate Komponenten organisiert werden müssen.
+
+:poetry-packages: https://python-poetry.org/docs/pyproject#packages
+
+Um dies mit Poetry zu erreichen, müssen wir jedoch die Konfigurationsdatei des
+Projekts von Hand bearbeiten. Weitere Details finden wir
+in der {poetry-packages}[offiziellen Dokumentation].
+====
+
+Wie wir sehen können, ist das Erstellen eines neuen Projekts mit Poetry ziemlich
+einfach und bequem. Wir erhalten kostenlos eine grundlegende Ordnerstruktur,
+ohne zu viel darüber nachdenken zu müssen, wie Sie Ihre Python-Dateien organisieren.
 
 ==== Verstehen der Projektstruktur
 
-Der `my_poetry` Unterordner selbst ist noch nicht sehr spektakulär. Darin finden Sie nur eine leere `__init__.py` Datei, die es in ein importierbares Python-Paket verwandelt.
+Der `my_poetry` Unterordner selbst ist noch nicht sehr spektakulär. Darin finden
+wir nur eine leere `__init__.py` Datei, die es in ein importierbares Python-Paket
+verwandelt.
 
-Ähnlich ist der `tests` Unterordner ein weiteres Python-Paket, das dazu gedacht ist, die [Unit Tests] und möglicherweise andere Arten von Tests für Ihr Projekt zu enthalten und so die besten Programmierpraktiken zu fördern.
+Ähnlich ist der `tests` Unterordner ein weiteres Python-Paket, das dazu gedacht ist,
+die __Unit Tests__ und möglicherweise andere Arten von Tests für das Projekt zu
+enthalten und so die besten Programmierpraktiken zu fördern.
 
-> **Hinweis**
->
-> Ältere Poetry-Versionen haben diese beiden `__init__.py` Dateien an dieser Stelle mit Beispielcode gefüllt. Neuere Versionen von Poetry generieren jedoch diese Dateien leer, um falsche Annahmen über die Struktur des Projekts oder Ihre Absichten als Entwickler zu vermeiden.
+[NOTE]
+====
+Ältere Poetry-Versionen haben diese beiden `\__init__.py` Dateien an dieser Stelle
+mit Beispielcode gefüllt. Neuere Versionen von Poetry generieren jedoch diese Dateien
+leer, um falsche Annahmen über die Struktur des Projekts oder Ihre Absichten als
+Entwickler zu vermeiden.
+====
 
-Poetry generiert auch standardmässig eine leere [README](https://en.wikipedia.org/wiki/README) Datei mit einer `.md` Erweiterung, was die Verwendung von [Markdown](https://en.wikipedia.org/wiki/Markdown) für die Formatierung vorschlägt. Wenn Sie kein Fan von Markdown sind, dann sind Ihre anderen Optionen entweder [einfacher Text](https://en.wikipedia.org/wiki/Plain_text) oder das [reStructuredText](https://en.wikipedia.org/wiki/ReStructuredText) Format. Dies sind die drei Formate, die [PyPI momentan rendern kann](https://packaging.python.org/en/latest/guides/making-a-pypi-friendly-readme/).
+:README: https://en.wikipedia.org/wiki/README
+:Markdown: https://en.wikipedia.org/wiki/Markdown
+:Plain-Text: https://en.wikipedia.org/wiki/Plain_text
+:reStructured: https://en.wikipedia.org/wiki/ReStructuredText
+:pypi-readme: https://packaging.python.org/en/latest/guides/making-a-pypi-friendly-readme/
 
-Zuletzt erstellt Poetry eine Konfigurationsdatei namens `pyproject.toml` mit den minimal erforderlichen Metadaten für Ihr Projekt, wie in [PEP 518](https://peps.python.org/pep-0518/) beschrieben. Sie werden sich diese nun genauer ansehen.
+Poetry generiert auch standardmässig eine leere {README}[README] Datei mit einer
+`.md`-Erweiterung, was die Verwendung von {Markdown}[Markdown] für die Formatierung
+vorschlägt. Wenn wir kein Fan von Markdown sind, dann sind auch anderen Optionen
+entweder {Plain-Text}[einfacher Text] oder das {reStructured}[reStructuredText]
+Format möglich. Dies sind die drei Formate, die {pypi-readme}[PyPI] momentan rendern kann.
 
-==== Inhalt der pyproject.toml Datei
+:pep-0518: https://peps.python.org/pep-0518/
+
+Zuletzt erstellt Poetry eine Konfigurationsdatei namens `pyproject.toml` mit den
+minimal erforderlichen Metadaten für Ihr Projekt, wie in
+{pep-0518}[PEP 518] beschrieben. Wir werden sich diese nun genauer ansehen.
+
+==== Inhalt der pyproject.toml-Datei
 
 Eine der wichtigsten Dateien für die Arbeit mit Poetry ist die `pyproject.toml` Datei. Diese Datei ist keine Erfindung von Poetry, sondern ein **Konfigurationsdatei** Standard, der in PEP 518 definiert ist.
 
@@ -203,13 +335,22 @@ Eine der wichtigsten Dateien für die Arbeit mit Poetry ist die `pyproject.toml`
 
 Die Autoren haben einige Dateiformate für die neue Konfigurationsdatei in Betracht gezogen, die im obigen Zitat erwähnt wird. Letztendlich haben sie sich für das **TOML**-Format entschieden, was für [Tom's Obvious Minimal Language](https://toml.io/en/) steht. Ihrer Meinung nach ist TOML flexibel genug und hat eine bessere Lesbarkeit und weniger Komplexität als andere Optionen wie [YAML], [JSON], CFG oder [INI](https://en.wikipedia.org/wiki/INI_file).
 
-> **Hinweis**
->
-> Um Python zu ermöglichen, TOML-Dateien zu lesen, die in der Python-Community kürzlich an Beliebtheit gewonnen haben, hat die Standardbibliothek das Drittanbieter-Paket [`tomli`](https://pypi.org/project/tomli/) aufgenommen und es in [`tomllib`] umbenannt. Es ist seit [Python 3.11] verfügbar, kann aber nur TOML-Dokumente lesen. Im Gegensatz dazu verlässt sich Poetry auf seine eigene [`tomlkit`](https://pypi.org/project/tomlkit/) Bibliothek, die sowohl das Lesen als auch das Schreiben unterstützt und zusätzliche Funktionen wie die Beibehaltung des ursprünglichen Dateiformats bietet.
+[NOTE]
+====
+:tomli: (https://pypi.org/project/tomli/
+:tomlkit: https://pypi.org/project/tomlkit/
 
-Um zu sehen, wie ein TOML-Dokument aussieht, öffnen Sie die von Poetry erstellte `pyproject.toml`-Datei in Ihrem Projektordner:
+Um Python zu ermöglichen, TOML-Dateien zu lesen, die in der Python-Community kürzlich
+an Beliebtheit gewonnen haben, hat die Standardbibliothek das Drittanbieter-Paket
+{tomli}[`tomli`] aufgenommen und es in [`tomllib`] umbenannt. Es ist seit [Python 3.11]
+verfügbar, kann aber nur TOML-Dokumente lesen. Im Gegensatz dazu verlässt sich Poetry
+auf seine eigene {tomlkit}[`tomlkit`] Bibliothek, die sowohl das Lesen als auch das
+Schreiben unterstützt und zusätzliche Funktionen wie die Beibehaltung des ursprünglichen
+Dateiformats bietet.
+====
 
 [source,toml]
+.pyproject.toml
 ----
 [tool.poetry]
 name="rp-poetry"
@@ -842,31 +983,67 @@ python = "^3.12"
 ...
 ----
 
-Ohne das `latest` Schlüsselwort oder eine explizite Versionsbeschränkung im `poetry add` Befehl zu verwenden, würde Poetry schlussfolgern, dass das angeforderte Paket bereits in Ihrem Projekt vorhanden ist und nichts tun.
+Ohne das `latest` Schlüsselwort oder eine explizite Versionsbeschränkung im `poetry add` Befehl
+zu verwenden, würde Poetry schlussfolgern, dass das angeforderte Paket bereits in Ihrem
+Projekt vorhanden ist und nichts tun.
 
-Nun haben Sie verstanden, wie Poetry `pyproject.toml` und `poetry.lock` verwendet. Als nächstes werfen Sie einen letzten Blick auf beide Dateien.
+Nun haben Sie verstanden, wie Poetry `pyproject.toml` und `poetry.lock` verwendet. Als Nächstes
+werfen Sie einen letzten Blick auf beide Dateien.
 
 ==== Vergleich von pyproject.toml und poetry.lock
 
-Die Versionsbeschränkungen der in Ihrer `pyproject.toml`-Datei deklarierten Abhängigkeiten können ziemlich locker sein. Dies ermöglicht eine gewisse Flexibilität bei der Einbeziehung von **Fehlerbehebungen** oder der Lösung von **Versionskonflikten**. Indem mehr Paketversionen zur Auswahl stehen, ist Poetry eher in der Lage, eine Kombination von kompatiblen Abhängigkeiten zu finden.
+Die Versionsbeschränkungen der in Ihrer `pyproject.toml`-Datei deklarierten Abhängigkeiten können
+ziemlich locker sein. Dies ermöglicht eine gewisse Flexibilität bei der Einbeziehung von
+**Fehlerbehebungen** oder der Lösung von **Versionskonflikten**. Indem mehr Paketversionen zur
+Auswahl stehen, ist Poetry eher in der Lage, eine Kombination von kompatiblen Abhängigkeiten zu finden.
 
-Andererseits verfolgt Poetry die genauen Versionen der Abhängigkeiten, die Sie tatsächlich in der `poetry.lock` Datei verwenden. Dies verbessert die **Leistung** von Poetry, indem die aufgelösten Paketversionen zwischengespeichert werden, sodass sie nicht jedes Mal erneut aufgelöst werden müssen, wenn Sie Ihre Abhängigkeiten installieren oder aktualisieren.
+Andererseits verfolgt Poetry die genauen Versionen der Abhängigkeiten, die Sie tatsächlich in der
+`poetry.lock` Datei verwenden. Dies verbessert die **Leistung** von Poetry, indem die aufgelösten
+Paketversionen zwischengespeichert werden, sodass sie nicht jedes Mal erneut aufgelöst werden müssen,
+wenn Sie Ihre Abhängigkeiten installieren oder aktualisieren.
 
-Um **reproduzierbare Umgebungen** in Ihrem Team zu gewährleisten, sollten Sie in Betracht ziehen, die `poetry.lock` Datei in Ihr [Versionskontrollsystem](https://de.wikipedia.org/wiki/Versionsverwaltung) wie Git zu übernehmen. Indem Sie diese Datei in einem Versionskontrollsystem verfolgen, stellen Sie sicher, dass alle Entwickler identische Versionen der erforderlichen Pakete verwenden. Es gibt jedoch eine bemerkenswerte Ausnahme.
 
-Wenn Sie eine [Bibliothek entwickeln](https://python-poetry.org/docs/basic-usage/#as-a-library-developer) anstatt einer Anwendung, ist es üblich, die `poetry.lock` Datei *nicht* zu committen. Bibliotheken müssen in der Regel mit mehreren Versionen ihrer Abhängigkeiten kompatibel bleiben, anstatt mit einem einzigen, festgelegten Set.
+:versionsverwaltung-wiki: https://de.wikipedia.org/wiki/Versionsverwaltung
 
-Wenn Sie auf ein Repository stoßen, das eine `poetry.lock` Datei enthält, ist es eine gute Idee, Poetry zur Verwaltung seiner Abhängigkeiten zu verwenden. Andererseits, wenn andere Entwickler in Ihrem Team Poetry noch nicht verwenden, sollten Sie sich mit ihnen über die mögliche Einführung von Poetry im gesamten Team abstimmen, bevor Sie Entscheidungen treffen. Sie müssen immer die Kompatibilität mit anderen Abhängigkeitsverwaltungstools aufrechterhalten, die das Team verwenden könnte.
+Um **reproduzierbare Umgebungen** in Ihrem Team zu gewährleisten, sollten Sie in Betracht ziehen,
+die `poetry.lock` Datei in Ihr {versionsverwaltung-wiki}[Versionskontrollsystem] wie Git zu
+übernehmen. Indem Sie diese Datei in einem Versionskontrollsystem verfolgen, stellen Sie sicher,
+dass alle Entwickler identische Versionen der erforderlichen Pakete verwenden.
+Es gibt jedoch eine bemerkenswerte Ausnahme.
+
+
+:basic-usage: https://python-poetry.org/docs/basic-usage/#as-a-library-developer
+
+Wenn Sie eine {basic-usage}[Bibliothek entwickeln] anstatt einer Anwendung, ist es üblich, die
+`poetry.lock` Datei *nicht* zu committen. Bibliotheken müssen in der Regel mit mehreren Versionen
+ihrer Abhängigkeiten kompatibel bleiben, anstatt mit einem einzigen, festgelegten Set.
+
+Wenn Sie auf ein Repository stossen, das eine `poetry.lock` Datei enthält, ist es eine gute Idee,
+Poetry zur Verwaltung seiner Abhängigkeiten zu verwenden. Andererseits, wenn andere Entwickler
+in Ihrem Team Poetry noch nicht verwenden, sollten Sie sich mit ihnen über die mögliche
+Einführung von Poetry im gesamten Team abstimmen, bevor Sie Entscheidungen treffen.
+Sie müssen immer die Kompatibilität mit anderen Abhängigkeitsverwaltungstools aufrechterhalten,
+die das Team verwenden könnte.
 
 === Poetry in einem bestehenden Projekt verwenden
 
-Es ist wahrscheinlich, dass Sie bereits einige Projekte haben, die nicht mit dem Befehl `poetry new` gestartet wurden. Oder vielleicht haben Sie ein Projekt geerbt, das nicht mit Poetry erstellt wurde, aber jetzt möchten Sie Poetry für Ihr Abhängigkeitsmanagement verwenden. In solchen Situationen können Sie Poetry zu bestehenden Python-Projekten hinzufügen.
+Es ist wahrscheinlich, dass Sie bereits einige Projekte haben, die nicht mit dem Befehl `poetry new`
+gestartet wurden. Oder vielleicht haben Sie ein Projekt geerbt, das nicht mit Poetry erstellt wurde,
+aber jetzt möchten Sie Poetry für Ihr Abhängigkeitsmanagement verwenden. In solchen Situationen
+können Sie Poetry zu bestehenden Python-Projekten hinzufügen.
 
 ==== Einen Ordner in ein Poetry-Projekt umwandeln
 
 Angenommen, Sie haben einen `my-hello` Ordner mit einem `hello.py` Skript darin:
 
-Es ist das klassische [`Hello, World!` Programm](https://en.wikipedia.org/wiki/%22Hello,_World!%22_program), welches den berühmten String auf dem Bildschirm ausgibt. Aber vielleicht ist dies nur der Anfang eines grossen Projekts, also entscheiden Sie sich, Poetry hinzuzufügen. Anstatt den `poetry new` Befehl von vorher zu verwenden, verwenden Sie den [`poetry init`](https://python-poetry.org/docs/cli/#init) Befehl in Ihrem Projektordner:
+
+:hello-world-wiki: https://en.wikipedia.org/wiki/%22Hello,_World!%22_program
+:poetri-init: https://python-poetry.org/docs/cli/#init
+
+Es ist das klassische {hello-world-wiki}[`Hello, World!` Programm], welches den berühmten String
+auf dem Bildschirm ausgibt. Aber vielleicht ist dies nur der Anfang eines grossen Projekts,
+also entscheiden Sie sich, Poetry hinzuzufügen. Anstatt den `poetry new` Befehl von vorher
+zu verwenden, verwenden Sie den {poetri-init}[`poetry init`] Befehl in Ihrem Projektordner:
 
 [source,bash]
 ----
@@ -895,7 +1072,11 @@ Would you like to define your development dependencies interactively? (yes/no) [
 (...)
 ----
 
-Der Befehl `poetry init` sammelt die notwendigen Informationen, um eine `pyproject.toml` Datei zu generieren, indem er Ihnen interaktiv Fragen stellt. Er gibt Ihnen Empfehlungen mit sinnvollen Standardwerten für die meisten Konfigurationen, die Sie einrichten müssen, und Sie können Enter drücken, um sie zu akzeptieren. Wenn Sie keine Abhängigkeiten deklarieren, sieht die `pyproject.toml` Datei, die Poetry erstellt, ungefähr so aus:
+Der Befehl `poetry init` sammelt die notwendigen Informationen, um eine `pyproject.toml` Datei
+zu generieren, indem er Ihnen interaktiv Fragen stellt. Er gibt Ihnen Empfehlungen mit sinnvollen
+Standardwerten für die meisten Konfigurationen, die Sie einrichten müssen, und Sie können
+Enter drücken, um sie zu akzeptieren. Wenn Sie keine Abhängigkeiten deklarieren, sieht
+die `pyproject.toml` Datei, die Poetry erstellt, ungefähr so aus:
 
 [source,toml]
 ----
@@ -918,7 +1099,8 @@ build-backend = "poetry.core.masonry.api"
 
 Dieser Inhalt ähnelt den Beispielen, die Sie in den vorherigen Abschnitten durchgegangen sind.
 
-Nun können Sie alle Befehle verwenden, die Poetry bietet. Mit einer vorhandenen `pyproject.toml` Datei können Sie nun Ihr Skript aus einer isolierten virtuellen Umgebung ausführen.
+Nun können Sie alle Befehle verwenden, die Poetry bietet. Mit einer vorhandenen `pyproject.toml`
+Datei können Sie nun Ihr Skript aus einer isolierten virtuellen Umgebung ausführen.
 
 [source,bash]
 ----
@@ -946,9 +1128,16 @@ soupsieve==2.2.1
 urllib3==1.26.4
 ----
 
-Dieses Projekt erfordert sieben Drittanbieter-Pakete, um ordnungsgemäss zu funktionieren. Zugegeben, nur die [Requests] und [Beautiful Soup](https://beautiful-soup-4.readthedocs.io/en/latest/) Bibliotheken werden direkt im Quellcode referenziert, während der Rest als ihre transitive Abhängigkeiten eingezogen wird.
+:beautiful-soup: https://beautiful-soup-4.readthedocs.io/en/latest/
 
-Poetry kommt standardmässig nicht mit solchen Anforderungsdateien zurecht, da sie die Abhängigkeiten Ihres Projekts anderswo speichert. Sobald Sie jedoch ein Poetry-Projekt mit `poetry init` erstellt haben, können Sie schnell eine vorhandene `requirements.txt`-Datei in das Projekt importieren, indem Sie diesen Befehl verwenden:
+Dieses Projekt erfordert sieben Drittanbieter-Pakete, um ordnungsgemäss zu funktionieren.
+Zugegeben, nur die [Requests] und {beautiful-soup}[Beautiful Soup] Bibliotheken werden direkt im
+Quellcode referenziert, während der Rest als ihre transitiven Abhängigkeiten eingezogen wird.
+
+Poetry kommt standardmässig nicht mit solchen Anforderungsdateien zurecht, da sie die
+Abhängigkeiten Ihres Projekts anderswo speichert. Sobald Sie jedoch ein Poetry-Projekt
+mit `poetry init` erstellt haben, können Sie schnell eine vorhandene `requirements.txt`-Datei
+in das Projekt importieren, indem Sie diesen Befehl verwenden:
 
 [source,bash]
 ----
@@ -970,9 +1159,18 @@ Package operations: 7 installs, 0 updates, 0 removals
 Writing lock file
 ----
 
-Das [`cat`](https://en.wikipedia.org/wiki/Cat_(Unix)) Hilfsprogramm liest die angegebene Datei und schreibt ihren Inhalt in den Standardausgabestrom. In diesem Fall leiten Sie diesen Inhalt mit Hilfe der [Befehlssubstitutionssyntax](https://en.wikipedia.org/wiki/Command_substitution) der Shell an den `poetry add` Befehl weiter. Dies installiert wiederum jede in der `requirements.txt` Datei aufgeführte Abhängigkeit in Ihr Poetry-Projekt.
+:cat: https://en.wikipedia.org/wiki/Cat_(Unix)
+:command_substitution-wiki: https://en.wikipedia.org/wiki/Command_substitution
 
-Wenn eine Anforderungsdatei so einfach ist wie diese, können `poetry add` und `cat` Ihnen einige manuelle Arbeiten ersparen. Dies ist jedoch nicht ideal, da alle Abhängigkeiten in Ihrer `pyproject.toml` Datei aufgelistet werden.
+Das {cat}[`cat`] Hilfsprogramm liest die angegebene Datei und schreibt ihren Inhalt in den
+Standardausgabestrom. In diesem Fall leiten Sie diesen Inhalt mithilfe der
+{command_substitution-wiki}[Befehlssubstitutionssyntax] der Shell an den `poetry add` Befehl weiter.
+Dies installiert wiederum jede in der `requirements.txt` Datei aufgeführte Abhängigkeit
+in Ihr Poetry-Projekt.
+
+Wenn eine Anforderungsdatei so einfach ist wie diese, können `poetry add` und `cat` Ihnen
+einige manuelle Arbeiten ersparen. Dies ist jedoch nicht ideal, da alle Abhängigkeiten in
+Ihrer `pyproject.toml` Datei aufgelistet werden.
 
 [source,toml]
 ----
@@ -1000,9 +1198,15 @@ requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 ----
 
-Normalerweise möchten Sie nur die Pakete auflisten, von denen Ihr Projekt *direkt* abhängt. Abgesehen davon sollten Sie im Allgemeinen vermeiden, genaue Versionsnummern zu verwenden, da dies zu Konflikten mit bestehenden Paketen führen oder Sie daran hindern kann, die neuesten Funktionen und Sicherheitsupdates zu erhalten. Stattdessen sollten Sie einen Versionsbereich angeben, der eine gewisse Flexibilität zulässt, während Sie sich immer noch an die Prinzipien der semantischen Versionierung halten.
+Normalerweise möchten Sie nur die Pakete auflisten, von denen Ihr Projekt *direkt* abhängt.
+Abgesehen davon sollten Sie im Allgemeinen vermeiden, genaue Versionsnummern zu verwenden,
+da dies zu Konflikten mit bestehenden Paketen führen oder Sie daran hindern kann, die
+neuesten Funktionen und Sicherheitsupdates zu erhalten. Stattdessen sollten Sie einen
+Versionsbereich angeben, der eine gewisse Flexibilität zulässt, während Sie sich immer
+noch an die Prinzipien der semantischen Versionierung halten.
 
-In einer perfekten Welt sollte Ihre `pyproject.toml` Datei nur diese zwei Abhängigkeiten mit etwas liberaleren Versionsspezifikationen enthalten:
+In einer perfekten Welt sollte Ihre `pyproject.toml` Datei nur diese zwei Abhängigkeiten
+mit etwas liberaleren Versionsspezifikationen enthalten:
 
 [source,toml]
 ----
@@ -1012,9 +1216,13 @@ beautifulsoup4 = "^4.9.3"
 requests = "^2.25.1"
 ----
 
-Poetry wird die verbleibenden Abhängigkeiten auflösen und sie in der entsprechenden `poetry.lock` Datei sperren.
+Poetry wird die verbleibenden Abhängigkeiten auflösen und sie in der entsprechenden `poetry.lock`
+Datei sperren.
 
-Nun, wenn Sie [die Abhängigkeiten Ihres Projekts](https://python-poetry.org/docs/cli/#show) als Baum anzeigen, wissen Sie genau, welche davon direkt von Ihrem Projekt verwendet werden und welche deren transitive Abhängigkeiten sind.
+:poetry-cli: https://python-poetry.org/docs/cli/#show
+
+Nun, wenn Sie {poetry-cli}[die Abhängigkeiten Ihres Projekts] als Baum anzeigen, wissen Sie genau,
+welche davon direkt von Ihrem Projekt verwendet werden und welche deren transitive Abhängigkeiten sind.
 
 [source,bash]
 ----
@@ -1031,51 +1239,90 @@ requests 2.32.3 Python HTTP for Humans.
 
 ==== Abhängigkeiten von Poetry exportieren
 
-In einigen Situationen müssen Sie eine `requirements.txt` Datei haben. Zum Beispiel möchten Sie vielleicht Ihr Django-Projekt auf Heroku hosten, das die `requirements.txt` Datei erwartet, um zu bestimmen, welche Abhängigkeiten zu installieren sind. Poetry gibt Ihnen einige Optionen, um diese Datei zu erstellen.
+In einigen Situationen müssen Sie eine `requirements.txt` Datei haben. Zum Beispiel möchten
+Sie vielleicht Ihr Django-Projekt auf Heroku hosten, das die `requirements.txt` Datei erwartet,
+um zu bestimmen, welche Abhängigkeiten zu installieren sind. Poetry gibt Ihnen einige Optionen,
+um diese Datei zu erstellen.
 
-Solange die virtuelle Umgebung Ihres Projekts auf dem neuesten Stand ist, können Sie Ihre Abhängigkeitsversionen mit dem traditionellen `pip freeze` Befehl festlegen:
+Solange die virtuelle Umgebung Ihres Projekts auf dem neuesten Stand ist, können Sie Ihre
+Abhängigkeitsversionen mit dem traditionellen `pip freeze` Befehl festlegen:
 
 [source,bash]
 ----
 $ poetry run python -m pip freeze > requirements.txt
 ----
 
-Um den Befehl im Kontext Ihrer von Poetry verwalteten virtuellen Projektumgebung auszuführen, müssen Sie `poetry run` verwenden. Alternativ könnten Sie die virtuelle Umgebung in einer [interaktiven Shell](https://python-poetry.org/docs/cli#shell) aktiviert und dann den gleichen Befehl von dort aus ausgeführt haben. So oder so, Sie müssen zuerst sicherstellen, dass alle erforderlichen Abhängigkeiten in ihren erwarteten Versionen installiert sind, zum Beispiel durch Ausgabe des Befehls `poetry install`.
+:poetry-shell: https://python-poetry.org/docs/cli#shell
 
-Wenn Ihnen das zu umständlich erscheint, können Sie das [Export-Plugin von Poetry](https://pypi.org/project/poetry-plugin-export/) installieren, welches den veralteten [`poetry export`](https://python-poetry.org/docs/cli#export) Befehl ersetzt. Es ermöglicht Ihnen im Grunde, Abhängigkeiten von `poetry.lock` in verschiedene Dateiformate zu exportieren, einschließlich `requirements.txt`, welches das Standardformat ist.
+Um den Befehl im Kontext Ihrer von Poetry verwalteten virtuellen Projektumgebung auszuführen,
+müssen Sie `poetry run` verwenden. Alternativ könnten Sie die virtuelle Umgebung in einer
+{poetry-shell}[interaktiven Shell] aktiviert und dann den gleichen Befehl von dort aus
+ausgeführt haben. So oder so, Sie müssen zuerst sicherstellen, dass alle erforderlichen
+Abhängigkeiten in ihren erwarteten Versionen installiert sind, zum Beispiel durch Ausgabe
+des Befehls `poetry install`.
 
-Je nachdem, wie Sie Poetry selbst installiert haben, sind dies die Befehle, die Sie zur Installation des erwähnten Plugins auswählen können:
+:poetry-export: https://pypi.org/project/poetry-plugin-export/
+:poetry-cli-export: https://python-poetry.org/docs/cli#export
+
+Wenn Ihnen das zu umständlich erscheint, können Sie das
+{poetry-export}[Export-Plugin von Poetry] installieren, welches den veralteten
+{poetry-cli-export}[`poetry export`] Befehl ersetzt. Es ermöglicht Ihnen im Grunde,
+Abhängigkeiten von `poetry.lock` in verschiedene Dateiformate zu exportieren,
+einschliesslich `requirements.txt`, welches das Standardformat ist.
+
+Je nachdem, wie Sie Poetry selbst installiert haben, sind dies die Befehle, die Sie zur
+Installation des erwähnten Plugins auswählen können:
 
 - `poetry self add poetry-plugin-export`
 - `pipx inject poetry poetry-plugin-export`
 - `python -m pip install poetry-plugin-export`
 
-Sobald das Plugin installiert ist, können Sie den folgenden Befehl verwenden, um Abhängigkeiten von Ihrem von Poetry verwalteten Projekt in eine `requirements.txt` Datei zu exportieren:
+Sobald das Plugin installiert ist, können Sie den folgenden Befehl verwenden, um Abhängigkeiten
+von Ihrem von Poetry verwalteten Projekt in eine `requirements.txt` Datei zu exportieren:
 
 [source,bash]
 ----
 $ poetry export --output requirements.txt
 ----
 
-Die resultierende Datei enthält standardmässig [Hashes](https://pip.pypa.io/en/stable/topics/secure-installs/#hash-checking-mode) und [Umgebungsmarker](https://www.python.org/dev/peps/pep-0508/#environment-markers), was bedeutet, dass Sie mit sehr strengen Anforderungen arbeiten können, die dem Inhalt Ihrer `poetry.lock` Datei ähneln. Tatsächlich benötigt das Export-Plugin die Lock-Datei, um die Anforderungsdatei zu generieren. Wenn diese Datei nicht existiert, erstellt Poetry sie nach dem Auflösen und Sperren Ihrer Abhängigkeiten.
+:pip-hashes: https://pip.pypa.io/en/stable/topics/secure-installs/#hash-checking-mode
+:environment-markes: https://www.python.org/dev/peps/pep-0508/#environment-markers
 
-Obwohl das Plugin die Sperrdatei betrachtet, um ein Gesamtbild der Abhängigkeiten Ihres Projekts zu erhalten, exportiert es nur Abhängigkeiten aus der impliziten **Hauptgruppe** in Ihrer `pyproject.toml`-Datei. Wenn Sie zusätzliche Abhängigkeiten aus **Abhängigkeitsgruppen** einschließen möchten, einschließlich der optionalen und nicht optionalen Gruppen, verwenden Sie dann den Parameter `--with`, gefolgt von kommagetrennten Namen dieser Gruppen:
+Die resultierende Datei enthält standardmässig {pip-hashes}[Hashes] und {environment-markes}[Umgebungsmarker],
+was bedeutet, dass Sie mit sehr strengen Anforderungen arbeiten können, die dem Inhalt Ihrer
+`poetry.lock` Datei ähneln. Tatsächlich benötigt das Export-Plugin die Lock-Datei,
+um die Anforderungsdatei zu generieren. Wenn diese Datei nicht existiert, erstellt
+Poetry sie nach dem Auflösen und Sperren Ihrer Abhängigkeiten.
+
+Obwohl das Plugin die Sperrdatei betrachtet, um ein Gesamtbild der Abhängigkeiten Ihres
+Projekts zu erhalten, exportiert es nur Abhängigkeiten aus der impliziten **Hauptgruppe** in
+Ihrer `pyproject.toml`-Datei. Wenn Sie zusätzliche Abhängigkeiten aus **Abhängigkeitsgruppen**
+einschliessen möchten, einschliesslich der optionalen und nicht optionalen Gruppen,
+verwenden Sie dann den Parameter `--with`, gefolgt von kommagetrennten Namen dieser Gruppen:
 
 [source,bash]
 ----
 $ poetry export --output requirements.txt --with dev,test
 ----
 
-Umgekehrt, um eine Anforderungsdatei mit Abhängigkeiten zu erstellen, die nur zu einigen Ihrer Abhängigkeitsgruppen gehören, während die implizite `main` Gruppe ausgeschlossen wird, verwenden Sie die `--only` Option:
+Umgekehrt, um eine Anforderungsdatei mit Abhängigkeiten zu erstellen, die nur zu einigen
+Ihrer Abhängigkeitsgruppen gehören, während die implizite `main` Gruppe ausgeschlossen wird,
+verwenden Sie die `--only` Option:
 
 [source,bash]
 ----
 $ poetry export --output requirements-dev.txt --only development
 ----
 
-In allen Fällen werden die **Extras** mit optionalen Abhängigkeiten nicht exportiert. Um sie ebenfalls einzuschließen, müssen Sie sie entweder explizit auflisten, indem Sie den Parameter `--extras` wiederholen, oder sie alle auf einmal mit der Flag `--all-extras` aktivieren.
+In allen Fällen werden die **Extras** mit optionalen Abhängigkeiten nicht exportiert.
+Um sie ebenfalls einzuschließen, müssen Sie sie entweder explizit auflisten, indem Sie
+den Parameter `--extras` wiederholen, oder sie alle auf einmal mit der Flag `--all-extras`
+aktivieren.
 
-Sie haben vielleicht bemerkt, dass das Export-Plugin einige Optionen mit dem Befehl `poetry install` teilt, den Sie zuvor gesehen haben. Das ist kein Zufall. Um die verfügbaren Optionen des Plugins und ihre Beschreibungen anzuzeigen, führen Sie `poetry export --help` in Ihrem Terminal aus.
+Sie haben vielleicht bemerkt, dass das Export-Plugin einige Optionen mit dem Befehl `poetry install`
+teilt, den Sie zuvor gesehen haben. Das ist kein Zufall. Um die verfügbaren Optionen des
+Plugins und ihre Beschreibungen anzuzeigen, führen Sie `poetry export --help` in Ihrem
+Terminal aus.
 
 === Befehlsreferenz
 
