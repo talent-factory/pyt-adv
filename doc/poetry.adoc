@@ -34,7 +34,7 @@ Verständnis von virtuellen Umgebungen, Modulen, Paketen und [`pip`] haben.
 Während wir uns in diesem Tutorial auf die Abhängigkeitsverwaltung konzentrieren,
 kann Poetry auch dabei helfen, ein {poetry-cli-build}[Vertriebspaket] für das Projekt zu erstellen.
 Wenn Sie die Arbeit teilen möchten, können Sie Poetry verwenden, um Ihr Projekt auf dem
-{PyPI}[Python Package Index (PyPI)] zu {poetry}[veröffentlichen].
+{PyPI}[Python Package Index (PyPI)] zu veröffentlichen.
 
 === Voraussetzungen
 
@@ -66,7 +66,7 @@ auf unserem System installieren.
 
 ==== Installation von Poetry
 
-:poetry: (https://pypi.org/project/poetry/
+:poetry: https://pypi.org/project/poetry/
 Poetry wird als ein {poetry}[Python-Paket] verteilt, was bedeutet, dass wir
 es in eine virtuelle Umgebung mit [`pip`] installieren können, genau wie jedes
 andere externe Paket:
@@ -371,7 +371,7 @@ bessere Lesbarkeit und weniger Komplexität als andere Optionen wie YAML, JSON, 
 
 [TIP]
 ====
-:tomli: (https://pypi.org/project/tomli/
+:tomli: https://pypi.org/project/tomli/
 :tomlkit: https://pypi.org/project/tomlkit/
 
 Um Python zu ermöglichen, TOML-Dateien zu lesen, die in der Python-Community kürzlich
@@ -463,9 +463,10 @@ Die `pyproject.toml`-Datei beginnt mit der `[tool.poetry]`-Untertabelle, in der 
 über das Projekt speichern können. Poetry definiert einige {pyproject}[Tabellenschlüssel],
 die in dieser Untertabelle gültig sind. Während einige davon optional sind, müssen wir diese vier immer angeben:
 
+:semver-org: https://semver.org/
 
 1.  `name`: Der Name Ihres Verteilungspakets, der auf PyPI erscheinen wird
-2.  `version`: Die Version Ihres Pakets, idealerweise nach [semantischer Versionierung](https://semver.org/)
+2.  `version`: Die Version Ihres Pakets, idealerweise nach {semver-org}[semantischer Versionierung]
 3.  `description`: Eine kurze Beschreibung Ihres Pakets
 4.  `authors`: Eine Liste der Autoren, im Format `name <email>`
 
