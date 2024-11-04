@@ -5,26 +5,26 @@ include::locale/attributes-de.adoc[]
 :realpython: https://realpython.com/dependency-management-python-poetry
 :poetry: https://python-poetry.org/
 
-Wenn unser Python-Projekt auf externe Pakete angewiesen ist, müssen wir sicherstellen, dass wir die richtige
+Wenn Ihr Python-Projekt auf externe Pakete angewiesen ist, müssen Sie sicherstellen, dass Sie die richtige
 Version jedes Pakets verwenden. Nach einem Update funktioniert ein Paket möglicherweise nicht mehr wie zuvor.
-Ein _Abhängigkeitsmanager_ wie Python Poetry hilft uns dabei, externe Pakete in unseren Projekten zu spezifizieren,
-zu installieren und zu lösen. Auf diese Weise können wir sicher sein, dass Sie immer mit der richtigen
+Ein _Abhängigkeitsmanager_ wie Python Poetry hilft Ihnen dabei, externe Pakete in Ihren Projekten zu spezifizieren,
+zu installieren und zu lösen. Auf diese Weise können Sie sicher sein, dass Sie immer mit der richtigen
 Abhängigkeitsversion auf jeder Maschine arbeiten.
 
-=== In diesem Tutorial lernen wir
+=== In diesem Tutorial lernen Sie
 
-- Erstellen eines neuen Projektes mit Poetry
+- Erstellen eines neuen Projekts mit Poetry
 - Poetry zu einem bestehenden Projekt hinzufügen
-- Konfigurieren des Projektes mit der `pyproject.toml` Datei
-- Installieren aller definierten Abhängigkeiten aus der `poetry.lock` Datei
+- Konfigurieren des Projekts mit der `pyproject.toml`-Datei
+- Installieren aller definierten Abhängigkeiten aus der `poetry.lock`-Datei
 - Grundlegende Poetry-Befehle
 
-{poetry}[Poetry] hilft uns, neue Projekte zu erstellen oder bestehende Projekte zu pflegen,
-während es sich um die Abhängigkeitsverwaltung für Sie kümmert. Es verwendet die `pyproject.toml`
-Datei, die zum Standard für die Definition von Build-Anforderungen in modernen Python-Projekten
+{poetry}[Poetry] hilft Ihnen, neue Projekte zu erstellen oder bestehende Projekte zu pflegen,
+während es sich um die Abhängigkeitsverwaltung kümmert. Es verwendet die `pyproject.toml`-Datei,
+die zum Standard für die Definition von Build-Anforderungen in modernen Python-Projekten
 geworden ist.
 
-Um dieses Tutorial abzuschliessen und das Beste daraus zu holen, sollten wir ein grundlegendes
+Um dieses Tutorial erfolgreich abzuschließen und das Beste daraus zu holen, sollten Sie ein grundlegendes
 Verständnis von virtuellen Umgebungen, Modulen, Paketen und [`pip`] haben.
 
 :poetry-cli-build: https://python-poetry.org/docs/cli/#build
@@ -32,16 +32,15 @@ Verständnis von virtuellen Umgebungen, Modulen, Paketen und [`pip`] haben.
 :poetry-cli-publish: https://python-poetry.org/docs/cli/#publish
 
 Während wir uns in diesem Tutorial auf die Abhängigkeitsverwaltung konzentrieren,
-kann Poetry auch dabei helfen, ein {poetry-cli-build}[Vertriebspaket zu erstellen]
-für das Projekt. Wenn wir die Arbeit teilen möchten, dann können wir Poetry verwenden,
-um Ihr Projekt auf dem {PyPI}[Python Packaging Index (PyPI)] zu
-{poetry}[veröffentlichen].
+kann Poetry auch dabei helfen, ein {poetry-cli-build}[Vertriebspaket] für das Projekt zu erstellen.
+Wenn Sie die Arbeit teilen möchten, können Sie Poetry verwenden, um Ihr Projekt auf dem
+{PyPI}[Python Package Index (PyPI)] zu {poetry}[veröffentlichen].
 
 === Voraussetzungen
 
-Bevor wir uns in die Feinheiten von Python Poetry vertiefen, kümmern wir uns um
-einige Voraussetzungen. Zuerst lesen wir einen kurzen Überblick über die Terminologie,
-die wir in diesem Tutorial antreffen werden. Als Nächstes installieren Sie Poetry selbst.
+Bevor Sie sich in die Feinheiten von Python Poetry vertiefen, kümmern Sie sich um
+einige Voraussetzungen. Zuerst lesen Sie einen kurzen Überblick über die Terminologie,
+die Sie in diesem Tutorial antreffen werden. Als Nächstes installieren Sie Poetry selbst.
 
 ==== Terminologien
 
