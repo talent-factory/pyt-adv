@@ -1201,7 +1201,7 @@ Installing the current project: project (0.1.0)
 
 Was ist, wenn unsere virtuelle Umgebung überflüssige Pakete enthält, die wir zuvor installiert haben,
 aber nicht mehr benötigen? Poetry stört sich nicht an solchen Paketen, auch wenn sie nicht formell
-in `pyproject.toml` oder `poetry.lock` deklariert sind. wir könnten sie vor einiger Zeit als optionale
+in `pyproject.toml` oder `poetry.lock` deklariert sind. Wir könnten sie vor einiger Zeit als optionale
 Abhängigkeitsgruppen installiert haben oder völlig ausserhalb der Kontrolle von Poetry, zum Beispiel
 durch direkte Verwendung von [`pip`].
 
@@ -1490,7 +1490,7 @@ Creating virtualenv my-hello-qs2Rris8-py3.13 in /Users/daniel/Library/Caches/pyp
 Hello, World
 ----
 
-Da Poetry keine virtuellen Umgebungen zum Verwenden gefunden hat, hat es eine neue erstellt, bevor es Ihr Skript
+Da Poetry keine virtuellen Umgebungen zum Verwenden gefunden hat, hat es eine neue erstellt, bevor es Ihr(e) Skript
 ausgeführt hat. Nachdem dies geschehen ist, zeigt es Ihre `Hello, World` Nachricht ohne Fehler an. Das bedeutet,
 dass Sie nun ein funktionierendes Poetry-Projekt haben.
 
@@ -1581,7 +1581,7 @@ requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 ----
 
-Normalerweise möchten Sie nur die Pakete auflisten, von denen Ihr Projekt *direkt* abhängt.
+Normalerweise möchten Sie nur die Pakete auflisten, von denen Ihr Projekt direkt abhängt.
 Abgesehen davon sollten Sie im Allgemeinen vermeiden, genaue Versionsnummern zu verwenden,
 da dies zu Konflikten mit bestehenden Paketen führen oder Sie daran hindern kann, die
 neuesten Funktionen und Sicherheitsupdates zu erhalten. Stattdessen sollten Sie einen
