@@ -2,12 +2,18 @@
 :doctype: book
 :author: Daniel Senften
 :email: daniel.senften@talent-factory.ch
-
 include::locale/attributes-de.adoc[]
 :toc: left
+:icons: font
+:toclevels: 2
 :sectnums:
-:source-highlighter: coderay
-:quick-uri: https://docs.asciidoctor.org/asciidoc/latest/syntax-quick-reference/
+:asciidoctor: https://docs.asciidoctor.org/asciidoc/latest/syntax-quick-reference/
+:pdf-theme: themes/pdf-theme.yml
+:title-logo-image: image:images/logo.png[top=0%, align=left, width=50%]
+
+
 
 // Hinzufügen aller Dokumente
+include::git.adoc[]
+
 include::poetry.adoc[]

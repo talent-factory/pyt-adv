@@ -11,6 +11,7 @@ Ein _Abhängigkeitsmanager_ wie Python Poetry hilft Ihnen dabei, externe Pakete 
 zu installieren und zu lösen. Auf diese Weise können Sie sicher sein, dass Sie immer mit der richtigen
 Abhängigkeitsversion auf jeder Maschine arbeiten.
 
+[discrete]
 === In diesem Tutorial lernen Sie
 
 - Erstellen eines neuen Projekts mit Poetry
@@ -212,7 +213,7 @@ Nun, da wir überprüft haben, dass Poetry korrekt installiert wurde, ist es an 
 zu sehen, wie es funktioniert.
 
 
-=== Erste Schritte mit Python Poetry
+=== Erste Schritte
 
 In diesem Abschnitt lernen wir, wie wir ein neues Poetry-Projekt mit der
 Befehlszeilenschnittstelle (CLI) des Tools erstellen. Wir werden auch die Projektstruktur
@@ -501,7 +502,7 @@ speichert. Es gibt eine {discussion}[laufende Diskussion] darüber, wie man PEP 
 anstatt `[tool.poetry]` zu verwenden.
 ====
 
-=== Arbeiten Sie mit Python Poetry
+=== Arbeiten mit Poetry
 
 Sobald wir ein Poetry-Projekt eingerichtet haben, kann die eigentliche Arbeit beginnen. In diesem Abschnitt
 erfahren wir, wie Poetry sich um die Vorbereitung einer isolierten virtuellen Umgebung für Ihr Projekt kümmert
@@ -1082,7 +1083,7 @@ Das Auflösen von Abhängigkeiten führt dazu, dass eine neue `poetry.lock` Date
 oder erstellt wird. Hier behält Poetry den Überblick über alle Pakete und ihre genauen Versionen,
 die das Projekt verwendet.
 
-=== Abhängigkeiten verwalten
+=== Abhängigkeiten
 
 Immer wenn wir mit Poetry über seine Befehlszeilenschnittstelle interagieren, aktualisiert es die `pyproject.toml`
 Datei und fixiert die gelösten Versionen in der `poetry.lock` Datei. Wir müssen jedoch nicht zulassen,
@@ -1406,7 +1407,7 @@ Einführung von Poetry im gesamten Team abstimmen, bevor Sie Entscheidungen tref
 Sie müssen immer die Kompatibilität mit anderen Abhängigkeitsverwaltungstools aufrechterhalten,
 die das Team verwenden könnte.
 
-=== Poetry in einem bestehenden Projekt verwenden
+=== Bestehendes Projekt
 
 Es ist wahrscheinlich, dass Sie bereits einige Projekte haben, die nicht mit dem Befehl `poetry new`
 gestartet wurden. Oder vielleicht haben Sie ein Projekt geerbt, das nicht mit Poetry erstellt wurde,
