@@ -1,0 +1,34 @@
+extends: default
+header:
+  height: 1in
+  content:
+    left:
+      content: '{document-title}'
+      font_size: 10
+      text_align: left
+    right:
+      content: '{section-title}'
+      font_size: 10
+      text_align: right
+  margin_bottom: 1cm
+
+footer:
+  height: 1in
+  content:
+    left:
+      content: '{author}'
+      font_size: 10
+      text_align: left
+    center:
+      content: '{local_git_version}'
+      font_size: 10
+      text_align: center
+    right:
+      content: '{page-number}'
+      font_size: 10
+      text_align: right
+  margin_top: 1cm
+
+page:
+  layout: both
+running_content_start_at: body

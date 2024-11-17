@@ -11,6 +11,9 @@ include::locale/attributes-de.adoc[]
 :pdf-theme: themes/pdf-theme.yml
 :title-logo-image: image:images/logo.png[top=0%, align=left, width=50%]
 
+ifdef::local_git_version[]
+:local-git-version: {local_git_version}
+endif::[]
 
 
 // Hinzufügen aller Dokumente

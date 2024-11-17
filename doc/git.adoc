@@ -1,4 +1,4 @@
-== Einführung in die Versionskontrolle mit Git
+== Einführung in die Versionskontrolle
 include::locale/attributes-de.adoc[]
 :imagesdir: images/
 
