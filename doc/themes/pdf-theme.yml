@@ -1,7 +1,10 @@
 extends: default
+
 header:
-  height: 1in
-  content:
+  height: 2cm
+  border_color: '#000000'    # Schwarze Linie
+  border_width: 0.25        # Liniendicke in Punkten
+  recto:
     left:
       content: '{document-title}'
       font_size: 10
@@ -10,11 +13,20 @@ header:
       content: '{section-title}'
       font_size: 10
       text_align: right
-  margin_bottom: 1cm
+  verso:
+    left:
+      content: '{document-title}'
+      font_size: 10
+      text_align: left
+    right:
+      content: '{section-title}'
+      font_size: 10
+      text_align: right
+  margin_bottom: 5cm        # Vergrößert von 4cm auf 5cm
 
 footer:
-  height: 1in
-  content:
+  height: 1cm
+  recto:
     left:
       content: '{author}'
       font_size: 10
@@ -27,8 +39,22 @@ footer:
       content: '{page-number}'
       font_size: 10
       text_align: right
-  margin_top: 1cm
+  verso:
+    left:
+      content: '{author}'
+      font_size: 10
+      text_align: left
+    center:
+      content: '{local_git_version}'
+      font_size: 10
+      text_align: center
+    right:
+      content: '{page-number}'
+      font_size: 10
+      text_align: right
+  margin_top: 3cm
 
 page:
   layout: both
-running_content_start_at: body
+
+running_content_start_at: toc
