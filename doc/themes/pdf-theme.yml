@@ -1,28 +1,31 @@
 extends: default
 
 header:
-  height: 1cm
+  height: 1.5cm      # Etwas erhöht um Platz für die Verschiebung zu haben
   border_color: '#000000'
   border_width: 0.25
-  padding: [0.5cm, 0, 0, 0]
   recto:
     left:
       content: '{document-title}'
       font_size: 10
       text_align: left
+      margin_top: 2cm    # Verschiebung für das linke Element
     right:
       content: '{section-title}'
       font_size: 10
       text_align: right
+      margin_top: 2cm    # Verschiebung für das rechte Element
   verso:
     left:
       content: '{document-title}'
       font_size: 10
       text_align: left
+      margin_top: 2cm    # Verschiebung für das linke Element
     right:
       content: '{section-title}'
       font_size: 10
       text_align: right
+      margin_top: 2cm    # Verschiebung für das rechte Element
   margin_bottom: 10cm
 
 footer:
@@ -53,13 +56,13 @@ footer:
       content: '{page-number}'
       font_size: 10
       text_align: right
-  margin_top: 3cm
+  margin_top: 4cm
 
 page:
   layout: both
   margin: [2.5cm, 2.5cm, 2.5cm, 2.5cm]
 
 body:
-  margin_top: 3cm
+  margin_top: 4cm
 
 running_content_start_at: toc
