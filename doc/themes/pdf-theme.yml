@@ -1,7 +1,7 @@
 extends: default
 
 header:
-  height: 2cm
+  height: 1cm
   border_color: '#000000'
   border_width: 0.25
   recto:
@@ -22,7 +22,7 @@ header:
       content: '{section-title}'
       font_size: 10
       text_align: right
-  margin_bottom: 5cm
+  margin_bottom: 10cm
 
 footer:
   height: 1cm
@@ -56,9 +56,9 @@ footer:
 
 page:
   layout: both
-  margin: [2.5cm, 2.5cm, 2.5cm, 2.5cm]  # [top, right, bottom, left]
+  margin: [2.5cm, 2.5cm, 2.5cm, 2.5cm]
 
 body:
-  margin_top: 4cm    # Hier steuern wir den Abstand zwischen Kopfzeile und Text
+  margin_top: 3cm
 
 running_content_start_at: toc
