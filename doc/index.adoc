@@ -15,7 +15,3 @@ ifdef::local_git_version[]
 :local-git-version: {local_git_version}
 endif::[]
 
-
-
-// Hinzufügen aller Dokumente
-include::git.adoc[]
