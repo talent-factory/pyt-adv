@@ -19,5 +19,3 @@ endif::[]
 
 // Hinzufügen aller Dokumente
 include::git.adoc[]
-
-include::poetry.adoc[]
