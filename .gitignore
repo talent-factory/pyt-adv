@@ -2,4 +2,6 @@
 .idea/
 *.iml
 
+# Personal files
 .codebuddy/
+.claude/settings.local.json
