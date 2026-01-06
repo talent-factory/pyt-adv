@@ -1,5 +1,6 @@
 # Gitpod Dockerfile für AI Development Kurs
-FROM gitpod/workspace-python-3.11
+# Gitpod runs on linux/amd64, but this can be built for other platforms
+FROM gitpod/workspace-python-3.13
 
 # Installiere zusätzliche System-Pakete
 USER root
